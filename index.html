@@ -10,12 +10,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Maturity AI">
   
-  <!-- Ícono SVG vectorizado como Data URI -->
+  <!-- Ícono SVG vectorizado en Data URI -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
 
+  <!-- CDNs: TailwindCSS, Chart.js, Plotly.js y QRious -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
   <script>
@@ -26,7 +28,7 @@
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
 
-  <!-- Cabecera -->
+  <!-- Header -->
   <header class="border-b border-gray-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2">
@@ -53,7 +55,7 @@
       </div>
     </div>
 
-    <!-- Pestañas -->
+    <!-- Pestañas de navegación -->
     <div class="max-w-5xl mx-auto px-4 flex border-t border-gray-100 dark:border-slate-800">
       <button onclick="switchTab('tab-eval')" id="nav-eval" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold text-center border-b-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 transition">
         📋 <span id="tab-label-1">1. Autoevaluación</span>
@@ -76,7 +78,6 @@
         <p id="eval-desc" class="text-xs text-blue-800 dark:text-slate-300 mt-1">Seleccione la opción que mejor refleje el estado operativo y regulatorio de su institución:</p>
       </div>
 
-      <!-- Contenedor dinámico de las 5 dimensiones -->
       <div id="dimensions-container" class="space-y-6"></div>
 
       <div class="pt-4 text-center">
@@ -114,47 +115,16 @@
       <div id="priority-box" class="p-4 rounded-xl bg-sky-50 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700"></div>
     </section>
 
-    <!-- PESTAÑA 3: Mapa de Calor -->
+    <!-- PESTAÑA 3: Mapa de Calor Idéntico a Plotly -->
     <section id="tab-heat" class="hidden space-y-6">
-      <div class="bg-emerald-50 dark:bg-slate-800/60 p-4 rounded-xl border border-emerald-200 dark:border-slate-700">
-        <h2 id="heat-heading" class="text-sm font-bold text-emerald-950 dark:text-emerald-200">Trayectoria de Madurez: Línea Base (T₀) vs Actual (T₁)</h2>
-        <p id="heat-desc" class="text-xs text-emerald-800 dark:text-slate-300 mt-1">Defina el nivel de partida para evaluar avances o retrocesos institucionales:</p>
+      <div class="bg-indigo-50 dark:bg-slate-800/60 p-4 rounded-xl border border-indigo-200 dark:border-slate-700">
+        <h2 id="heat-heading" class="text-sm font-bold text-indigo-950 dark:text-indigo-200">Mapa de Calor: Transición de Madurez</h2>
+        <p id="heat-desc" class="text-xs text-indigo-800 dark:text-slate-300 mt-1">Medición de la trayectoria institucional comparando la Línea Base de partida (T₀) frente a la Evaluación Actual (T₁).</p>
       </div>
 
-      <details class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700" open>
-        <summary id="lbl-set-baseline" class="cursor-pointer text-xs font-semibold text-blue-600 dark:text-blue-400 select-none">
-          ⚙️ Modificar niveles de partida (Línea Base T₀)
-        </summary>
-        <div id="baseline-sliders" class="mt-4 space-y-4 pt-3 border-t border-gray-100 dark:border-slate-700"></div>
-      </details>
-
-      <div class="grid grid-cols-3 gap-3">
-        <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
-          <p id="lbl-base-total" class="text-xs text-gray-500 dark:text-gray-400">Línea Base (T₀)</p>
-          <p id="val-base-total" class="text-lg font-bold mt-1">5 / 20</p>
-        </div>
-        <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
-          <p id="lbl-curr-total" class="text-xs text-gray-500 dark:text-gray-400">Actual (T₁)</p>
-          <p id="val-curr-total" class="text-lg font-bold mt-1">5 / 20</p>
-        </div>
-        <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
-          <p id="lbl-net-shift" class="text-xs text-gray-500 dark:text-gray-400">Desplazamiento (Δ)</p>
-          <p id="val-net-shift" class="text-lg font-bold mt-1 text-gray-500">0</p>
-        </div>
-      </div>
-
-      <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800">
-        <table class="w-full text-left text-xs sm:text-sm">
-          <thead class="bg-gray-100 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
-            <tr>
-              <th id="th-dim" class="p-3">Dimensión</th>
-              <th class="p-3 text-center w-24">T₀ Base</th>
-              <th class="p-3 text-center w-24">T₁ Actual</th>
-              <th class="p-3 text-center w-36">Shift (Δ)</th>
-            </tr>
-          </thead>
-          <tbody id="heatmap-body" class="divide-y divide-gray-200 dark:divide-slate-700"></tbody>
-        </table>
+      <!-- Contenedor del Gráfico de Calor de Plotly -->
+      <div class="p-2 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div id="plotly-heatmap" class="w-full" style="height: 420px;"></div>
       </div>
 
       <div id="heat-summary-alert" class="p-4 rounded-xl border"></div>
@@ -200,17 +170,11 @@
         balancedMsg: "<strong>Despliegue Equilibrado:</strong> Sus marcos de gobernanza y salvaguardas epistemológicas respaldan adecuadamente el despliegue técnico actual.",
         nextStepTitle: "🚀 Próximo Paso Estratégico",
         laggingInfo: "Su área de desarrollo más crítica es <strong>{dim}</strong> (actualmente en Nivel {lvl}). Priorice los recursos institucionales aquí antes de autorizar mayores niveles de autonomía agéntica.",
-        heatHeading: "Trayectoria de Madurez: Línea Base (T₀) vs Actual (T₁)",
-        heatDesc: "Defina el nivel de partida para evaluar avances o retrocesos institucionales:",
-        setBaseline: "⚙️ Modificar niveles de partida (Línea Base T₀)",
-        baseTotal: "Línea Base (T₀)",
-        currTotal: "Actual (T₁)",
-        netShift: "Desplazamiento (Δ)",
-        thDim: "Dimensión",
-        heatRegressAlert: "⚠️ <strong>Vulnerabilidad Detectada:</strong> Una o más dimensiones muestran retroceso con respecto a la línea base.",
-        heatProgressAlert: "📈 <strong>Trayectoria Favorable:</strong> La institución demuestra un progreso neto acumulado (+{shift} puntos).",
-        heatStableAlert: "ℹ️ <strong>Línea Base Estable:</strong> La evaluación actual coincide con la postura de madurez de partida.",
-        status: { progress: "Avance", stable: "Estable", regress: "Retroceso" },
+        heatHeading: "Mapa de Calor: Transición de Madurez",
+        heatDesc: "Medición de la trayectoria institucional comparando la Línea Base de partida (T₀) frente a la Evaluación Actual (T₁).",
+        colsHeat: ["Línea Base (T₀)", "Actual (T₁)", "Desplazamiento Neto (Δ)"],
+        heatProgressAlert: "📈 <strong>Trayectoria Favorable:</strong> La institución demuestra un avance acumulado (+{shift} puntos) a lo largo de las dimensiones de evaluación.",
+        heatStableAlert: "ℹ️ <strong>Línea Base Inicial:</strong> Todas las dimensiones se encuentran en su nivel base de partida (Nivel 1).",
         archetypes: { "Level 1": "Agente Reactivo", "Level 2": "Agente Deliberativo", "Level 3": "Agente Anticipativo", "Level 4": "Agente Prescriptivo" },
         dimensions: {
           gov: {
@@ -285,17 +249,11 @@
         balancedMsg: "<strong>Balanced Deployment:</strong> Your governance frameworks adequately support your current technical deployment.",
         nextStepTitle: "🚀 Strategic Next Step",
         laggingInfo: "Your most critical area is <strong>{dim}</strong> (currently at Level {lvl}). Prioritize resources here before authorizing higher autonomy.",
-        heatHeading: "Maturity Trajectory: Baseline (T₀) vs Current (T₁)",
-        heatDesc: "Define your baseline to track institutional advancement or regression:",
-        setBaseline: "⚙️ Modify Baseline Levels (T₀)",
-        baseTotal: "Baseline (T₀)",
-        currTotal: "Current (T₁)",
-        netShift: "Net Shift (Δ)",
-        thDim: "Dimension",
-        heatRegressAlert: "⚠️ <strong>Vulnerability Detected:</strong> One or more dimensions show regression compared to your baseline.",
-        heatProgressAlert: "📈 <strong>Positive Trajectory:</strong> The agency demonstrates cumulative progress (+{shift} points).",
-        heatStableAlert: "ℹ️ <strong>Stable Baseline:</strong> Current assessment aligns precisely with the baseline posture.",
-        status: { progress: "Progress", stable: "Stable", regress: "Regression" },
+        heatHeading: "Heatmap: Maturity Transition",
+        heatDesc: "Measurement of institutional trajectory comparing Baseline posture (T₀) against Current assessment (T₁).",
+        colsHeat: ["Baseline (T₀)", "Current (T₁)", "Net Shift (Δ)"],
+        heatProgressAlert: "📈 <strong>Positive Trajectory:</strong> The agency demonstrates cumulative advancement (+{shift} points) across evaluative dimensions.",
+        heatStableAlert: "ℹ️ <strong>Initial Baseline:</strong> All dimensions are currently aligned with the starting posture (Level 1).",
         archetypes: { "Level 1": "Reactive Agent", "Level 2": "Deliberative Agent", "Level 3": "Anticipative Agent", "Level 4": "Prescriptive Agent" },
         dimensions: {
           gov: {
@@ -355,7 +313,6 @@
     let currentLang = localStorage.getItem('app_lang') || 'ES';
     let isDark = localStorage.getItem('app_dark') === 'true';
     let scores = { gov: 1, data: 1, proc: 1, cult: 1, eth: 1 };
-    let baselines = { gov: 1, data: 1, proc: 1, cult: 1, eth: 1 };
     let radarChartInstance = null;
     let deferredPrompt = null;
 
@@ -390,6 +347,7 @@
         document.getElementById('theme-icon').textContent = '🌙';
       }
       if (radarChartInstance) renderRadar();
+      renderPlotlyHeatmap();
     }
 
     function toggleLang() {
@@ -417,7 +375,7 @@
       activeNav.classList.add('border-blue-600', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
 
       if (tabId === 'tab-diag') renderRadar();
-      if (tabId === 'tab-heat') renderHeatmap();
+      if (tabId === 'tab-heat') renderPlotlyHeatmap();
     }
 
     function renderAssessment() {
@@ -438,7 +396,7 @@
                 ? 'border-blue-500 bg-blue-50/60 dark:bg-blue-950/40 dark:border-blue-400' 
                 : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'
             }">
-              <input type="radio" name="radio-${key}" value="${level}" ${isSelected ? 'checked' : ''} class="mt-1 accent-blue-600">
+              <input type="radio" name="radio-${key}" value="${level}" ${isSelected ? 'checked' : ''} class="mt-1 accent-blue-600 pointer-events-none">
               <div class="text-xs sm:text-sm font-medium ${isSelected ? 'text-blue-900 dark:text-blue-200' : 'text-gray-700 dark:text-gray-300'}">
                 ${dim.options[level]}
               </div>
@@ -459,6 +417,7 @@
       scores[dim] = val;
       renderAssessment();
       updateCalculations();
+      renderPlotlyHeatmap();
     }
 
     function updateCalculations() {
@@ -564,83 +523,86 @@
       });
     }
 
-    function renderBaselineSliders() {
+    // MAPA DE CALOR IDÉNTICO DE PLOTLY
+    function renderPlotlyHeatmap() {
       const t = DATA[currentLang];
-      const container = document.getElementById('baseline-sliders');
-      container.innerHTML = '';
+      const chartDiv = document.getElementById('plotly-heatmap');
+      if (!chartDiv || typeof Plotly === 'undefined') return;
 
-      Object.entries(t.dimensions).forEach(([key, dim]) => {
-        const div = document.createElement('div');
-        div.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-2';
-        div.innerHTML = `
-          <span class="text-xs font-medium text-gray-700 dark:text-gray-300">${dim.name}</span>
-          <div class="flex items-center gap-2">
-            <input type="range" min="1" max="4" value="${baselines[key]}" 
-              oninput="updateBaseline('${key}', this.value)" class="w-32 accent-blue-600">
-            <span id="base-val-lbl-${key}" class="text-xs font-bold w-12 text-right">L${baselines[key]}</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
+      // Orden descendente de dimensiones idéntico a la imagen (de abajo hacia arriba en el eje Y)
+      const dimKeys = ['gov', 'data', 'proc', 'cult', 'eth'];
+      const yLabels = dimKeys.map(k => t.dimensions[k].name);
 
-    function updateBaseline(key, val) {
-      baselines[key] = parseInt(val);
-      document.getElementById(`base-val-lbl-${key}`).textContent = `L${val}`;
-      renderHeatmap();
-    }
+      const zValues = [];
+      const textValues = [];
+      let totalShift = 0;
 
-    function renderHeatmap() {
-      const t = DATA[currentLang];
-      const tbody = document.getElementById('heatmap-body');
-      tbody.innerHTML = '';
-
-      let baseSum = 0;
-      let currSum = 0;
-      let hasRegress = false;
-
-      Object.entries(t.dimensions).forEach(([key, dim]) => {
-        const b = baselines[key];
-        const c = scores[key];
+      dimKeys.forEach(k => {
+        const b = 1; // Línea Base inicial fija T0 = Nivel 1
+        const c = scores[k];
         const delta = c - b;
-        baseSum += b;
-        currSum += c;
+        totalShift += delta;
 
-        let deltaBadge = '';
-        if (delta > 0) {
-          deltaBadge = `<span class="px-2 py-0.5 rounded font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">+${delta} (${t.status.progress})</span>`;
-        } else if (delta === 0) {
-          deltaBadge = `<span class="px-2 py-0.5 rounded font-medium bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-gray-300">0 (${t.status.stable})</span>`;
-        } else {
-          hasRegress = true;
-          deltaBadge = `<span class="px-2 py-0.5 rounded font-bold bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300">${delta} (${t.status.regress})</span>`;
-        }
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-3 font-medium text-gray-800 dark:text-gray-200">${dim.name}</td>
-          <td class="p-3 text-center font-bold text-gray-500">L${b}</td>
-          <td class="p-3 text-center font-bold text-blue-600 dark:text-blue-400">L${c}</td>
-          <td class="p-3 text-center">${deltaBadge}</td>
-        `;
-        tbody.appendChild(tr);
+        zValues.push([b, c, delta]);
+        const shiftTxt = delta > 0 ? `+${delta} (Avance)` : (delta === 0 ? `0 (Paridad)` : `${delta} (Retroceso)`);
+        textValues.push([`L${b}`, `L${c}`, shiftTxt]);
       });
 
-      const netShift = currSum - baseSum;
-      document.getElementById('val-base-total').textContent = `${baseSum} / 20`;
-      document.getElementById('val-curr-total').textContent = `${currSum} / 20`;
-      
-      const shiftEl = document.getElementById('val-net-shift');
-      shiftEl.textContent = `${netShift > 0 ? '+' : ''}${netShift}`;
-      shiftEl.className = `text-lg font-bold mt-1 ${netShift > 0 ? 'text-emerald-600' : (netShift < 0 ? 'text-red-600' : 'text-gray-500')}`;
+      const data = [{
+        z: zValues,
+        x: t.colsHeat,
+        y: yLabels,
+        text: textValues,
+        texttemplate: "%{text}",
+        textfont: {
+          family: "sans-serif",
+          size: 13,
+          color: isDark ? "#ffffff" : "#0f172a"
+        },
+        type: 'heatmap',
+        colorscale: [
+          [0.0, '#e24a3f'],  // Rojo / Naranja
+          [0.33, '#e24a3f'],
+          [0.5, '#759489'],  // Tono verde oliva neutro
+          [0.75, '#27ae60'], // Verde vibrante
+          [1.0, '#10b981']   // Verde avance alto
+        ],
+        showscale: true,
+        colorbar: {
+          title: {
+            text: 'Escala / Δ',
+            side: 'top',
+            font: { color: isDark ? '#e2e8f0' : '#1e293b', size: 12 }
+          },
+          tickvals: [0, 2],
+          ticktext: ['0 Paridad', '+2 Avance'],
+          tickfont: { color: isDark ? '#cbd5e1' : '#334155' },
+          len: 0.95
+        }
+      }];
+
+      const layout = {
+        margin: { l: 200, r: 40, t: 50, b: 20 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        xaxis: {
+          side: 'top',
+          tickfont: { color: isDark ? '#cbd5e1' : '#475569', size: 12, weight: 'bold' }
+        },
+        yaxis: {
+          tickfont: { color: isDark ? '#cbd5e1' : '#475569', size: 11 }
+        },
+        height: 380
+      };
+
+      const config = { responsive: true, displayModeBar: false };
+
+      Plotly.react(chartDiv, data, layout, config);
 
       const alertBox = document.getElementById('heat-summary-alert');
-      if (hasRegress) {
-        alertBox.className = "p-4 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 text-xs sm:text-sm";
-        alertBox.innerHTML = t.heatRegressAlert;
-      } else if (netShift > 0) {
+      if (totalShift > 0) {
         alertBox.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm";
-        alertBox.innerHTML = t.heatProgressAlert.replace('{shift}', netShift);
+        alertBox.innerHTML = t.heatProgressAlert.replace('{shift}', totalShift);
       } else {
         alertBox.className = "p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-gray-300 text-xs sm:text-sm";
         alertBox.innerHTML = t.heatStableAlert;
@@ -663,16 +625,10 @@
       document.getElementById('lbl-radar-title').textContent = t.radarTitle;
       document.getElementById('heat-heading').textContent = t.heatHeading;
       document.getElementById('heat-desc').textContent = t.heatDesc;
-      document.getElementById('lbl-set-baseline').textContent = t.setBaseline;
-      document.getElementById('lbl-base-total').textContent = t.baseTotal;
-      document.getElementById('lbl-curr-total').textContent = t.currTotal;
-      document.getElementById('lbl-net-shift').textContent = t.netShift;
-      document.getElementById('th-dim').textContent = t.thDim;
 
       renderAssessment();
-      renderBaselineSliders();
       updateCalculations();
-      renderHeatmap();
+      renderPlotlyHeatmap();
     }
 
     function openShareModal() {
@@ -695,7 +651,6 @@
       setTimeout(() => btn.textContent = 'Copiar Enlace', 2000);
     }
 
-    // Inicialización inmediata y robusta
     applyTheme();
     renderAll();
   </script>
