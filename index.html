@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Maturity Roadmap: Agentic AI in QA & Accreditation</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Maturity Roadmap: Agentic AI in QA & Accreditation">
+  <meta name="description" content="A Human-Centric Diagnostic Tool for Quality Assurance & Higher Education Accreditation">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Roadmap AI">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js for Radar Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- QRious for dynamic client-side QR generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <style>
+    /* Prevent bouncy scroll on iOS and custom scrollbars */
+    html, body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 9999px;
+    }
+    /* Slider styling */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #2563eb;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col transition-colors duration-200">
+
+  <!-- Top App Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 sm:px-6">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md text-xl">
+          馃Л
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold leading-tight tracking-tight text-slate-900 dark:text-white" id="app-title">
+            Maturity Roadmap
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block" id="app-subtitle">
+            Agentic AI in QA & Accreditation
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Controls: PWA Install, Language, Theme, Share -->
+      <div class="flex items-center space-x-2">
+        <!-- PWA Status Badge -->
+        <span id="pwa-status" class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          <span id="status-label">Online</span>
+        </span>
+
+        <!-- PWA Install Button (hidden until prompt event) -->
+        <button id="pwa-install-btn" class="hidden items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all transform active:scale-95">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span id="btn-install-text">Instalar</span>
+        </button>
+
+        <!-- Share / QR Modal Button -->
+        <button id="share-btn" title="Compartir / Share" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+        </button>
+
+        <!-- Language Selector -->
+        <button id="lang-btn" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
+          馃嚜馃嚫 ES
+        </button>
+
+        <!-- Theme Selector -->
+        <button id="theme-btn" title="Toggle Theme" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
+          <span id="theme-icon">馃寵</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Subtitle Banner -->
+  <section class="max-w-6xl mx-auto w-full px-4 pt-4 sm:px-6">
+    <div class="p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/5 to-transparent border border-blue-200/50 dark:border-blue-900/30">
+      <h2 class="text-sm sm:text-base font-semibold text-blue-900 dark:text-blue-300" id="banner-head">
+        Marco de Diagn贸stico Institucional
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5" id="banner-sub">
+        Herramienta de autodiagn贸stico 茅tico y t茅cnico para agencias e instituciones de educaci贸n superior (*Beyond Compliance*).
+      </p>
+    </div>
+  </section>
+
+  <!-- App Tab Navigation -->
+  <nav class="max-w-6xl mx-auto w-full px-4 sm:px-6 mt-4">
+    <div class="grid grid-cols-3 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/80 rounded-xl text-xs sm:text-sm font-semibold select-none">
+      <button onclick="switchTab('assessment')" id="nav-assessment" class="tab-btn py-2.5 px-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 shadow bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400">
+        <span>馃搵</span> <span class="tab-label" id="tab-label-1">1. Diagn贸stico</span>
+      </button>
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="tab-btn py-2.5 px-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        <span>馃搳</span> <span class="tab-label" id="tab-label-2">2. Resultados</span>
+      </button>
+      <button onclick="switchTab('heatmap')" id="nav-heatmap" class="tab-btn py-2.5 px-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        <span>馃搱</span> <span class="tab-label" id="tab-label-3">3. Transici贸n</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 flex-1 custom-scrollbar">
+
+    <!-- ==================== TAB 1: ASSESSMENT ==================== -->
+    <section id="view-assessment" class="space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white" id="assess-title">
+            馃搵 Autoevaluaci贸n Institucional
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5" id="assess-subtitle">
+            Seleccione el estado operativo y regulatorio actual de su agencia en cada dimensi贸n:
+          </p>
+        </div>
+        <button onclick="resetDefaults()" class="text-xs font-medium text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors">
+          鈫?<span id="btn-reset-text">Restablecer</span>
+        </button>
+      </div>
+
+      <!-- Questionnaire Cards Stack -->
+      <div id="dimensions-container" class="space-y-5">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- CTA to Results Tab -->
+      <div class="pt-4 flex justify-end">
+        <button onclick="switchTab('dashboard')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-md shadow-blue-500/20 transition-all transform active:scale-95">
+          <span id="btn-goto-results">Ver Resultados y Radar</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: DIAGNOSTIC DASHBOARD ==================== -->
+    <section id="view-dashboard" class="hidden space-y-6">
+      
+      <!-- KPI Metric Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Overall Score Card -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400" id="kpi-score-title">
+            Puntaje Global
+          </span>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span id="metric-score" class="text-3xl sm:text-4xl font-extrabold text-blue-600 dark:text-blue-400">5</span>
+            <span class="text-sm font-medium text-slate-400">/ 20</span>
+          </div>
+          <div class="mt-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div id="metric-score-bar" class="bg-blue-600 h-1.5 rounded-full transition-all duration-500" style="width: 25%"></div>
+          </div>
+        </div>
+
+        <!-- Maturity Level Card -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400" id="kpi-level-title">
+            Nivel de Madurez
+          </span>
+          <div class="mt-2">
+            <span id="metric-level" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">L1</span>
+            <p id="metric-level-desc" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Nivel Inicial</p>
+          </div>
+        </div>
+
+        <!-- Agent Archetype Profile -->
+        <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400" id="kpi-archetype-title">
+            Perfil Ag茅ntico
+          </span>
+          <div class="mt-2 flex items-center gap-2">
+            <div id="archetype-badge-dot" class="w-3 h-3 rounded-full bg-slate-400"></div>
+            <span id="metric-archetype" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Agente Reactivo</span>
+          </div>
+          <p id="metric-archetype-note" class="text-xs text-slate-500 dark:text-slate-400 mt-2">Capacidad institucional asignada</p>
+        </div>
+      </div>
+
+      <!-- Radar Chart Card -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2" id="radar-title">
+            <span>馃暩锔?/span> Mapa Radial de Capacidades Evaluativas
+          </h3>
+          <span id="radar-badge-status" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+            Equilibrado
+          </span>
+        </div>
+        <div class="relative w-full aspect-square max-w-md mx-auto max-h-[380px]">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Safe Operational Capacity / Turing Trap Check Banner -->
+      <div id="governance-alert-box" class="p-5 rounded-2xl border transition-all">
+        <!-- Injected via JS based on gap detection -->
+      </div>
+
+      <!-- Strategic Next Step Priority Card -->
+      <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 via-slate-100 to-transparent dark:from-blue-900/20 dark:via-slate-900 dark:to-transparent border border-blue-200 dark:border-blue-800">
+        <h4 class="text-sm font-bold uppercase tracking-wider text-blue-900 dark:text-blue-300 flex items-center gap-1.5" id="next-step-title">
+          <span>馃殌</span> Pr贸ximo Paso Estrat茅gico
+        </h4>
+        <p id="next-step-desc" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-2 leading-relaxed">
+          Cargando an谩lisis prioritario...
+        </p>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 3: TRANSITION HEATMAP ==================== -->
+    <section id="view-heatmap" class="hidden space-y-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white" id="heat-title">
+            馃搱 An谩lisis Institucional de Transici贸n y Trayectoria
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5" id="heat-subtitle">
+            Contraste el estado inicial o l铆nea base (T鈧€) contra la autoevaluaci贸n actual (T鈧?.
+          </p>
+        </div>
+      </div>
+
+      <!-- Baseline Sliders (Collapsible / Accordion) -->
+      <details class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden" open>
+        <summary class="px-5 py-3.5 flex items-center justify-between cursor-pointer font-semibold text-xs sm:text-sm text-slate-800 dark:text-slate-200 select-none">
+          <span class="flex items-center gap-2" id="baseline-config-header">
+            鈿欙笍 Configurar Estado de L铆nea Base (T鈧€)
+          </span>
+          <span class="transition-transform group-open:rotate-180 text-slate-400">鈻?/span>
+        </summary>
+        <div id="baseline-sliders-container" class="p-5 pt-2 border-t border-slate-100 dark:border-slate-800 space-y-4">
+          <!-- Rendered via JS -->
+        </div>
+      </details>
+
+      <!-- Transition Delta Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="lbl-metric-base">L铆nea Base (T鈧€)</span>
+          <p id="t0-score" class="text-2xl font-bold text-slate-700 dark:text-slate-200 mt-1">5 / 20</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="lbl-metric-curr">Evaluaci贸n Actual (T鈧?</span>
+          <p id="t1-score" class="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">5 / 20</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-medium" id="lbl-metric-shift">Desplazamiento Neto (螖)</span>
+          <p id="delta-score" class="text-2xl font-bold text-slate-500 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Heatmap Matrix Grid Display -->
+      <div class="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4" id="heat-matrix-title">
+          Matriz de Calor: Desplazamiento por Dimensi贸n
+        </h3>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 font-semibold">
+                <th class="py-2.5 px-3" id="th-dimension">Dimensi贸n</th>
+                <th class="py-2.5 px-3 text-center w-24">T鈧€ (Base)</th>
+                <th class="py-2.5 px-3 text-center w-24">T鈧?(Actual)</th>
+                <th class="py-2.5 px-3 text-center w-36" id="th-delta">螖 Cambio</th>
+              </tr>
+            </thead>
+            <tbody id="heatmap-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Heatmap Legend -->
+        <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+          <span class="font-semibold" id="heat-legend-title">C贸digo Sem谩ntico de Transici贸n:</span>
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span> <span id="leg-regress">Retroceso (-螖)</span></span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-slate-300 dark:bg-slate-700"></span> <span id="leg-stable">Paridad (0)</span></span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> <span id="leg-advance">Avance (+螖)</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trajectory Feedback Alert -->
+      <div id="heatmap-alert" class="p-4 rounded-xl border text-xs sm:text-sm font-medium">
+        <!-- Rendered via JS -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Share & QR Modal Backdrop -->
+  <div id="share-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl relative">
+      <button onclick="toggleShareModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white p-1">
+        鉁?      </button>
+
+      <div class="text-center">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl mb-3">
+          馃摫
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white" id="modal-share-title">
+          Acceso R谩pido / Compartir
+        </h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" id="modal-share-sub">
+          Escanee este c贸digo QR para abrir y completar el diagn贸stico en su dispositivo m贸vil.
+        </p>
+
+        <!-- Canvas for QRious QR Code -->
+        <div class="my-4 p-3 bg-white rounded-2xl shadow-inner inline-block border border-slate-100">
+          <canvas id="qr-canvas"></canvas>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input type="text" id="share-url-input" readonly class="text-xs w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 focus:outline-none">
+          <button onclick="copyShareUrl()" id="btn-copy-url" class="px-3 py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shrink-0 transition-colors">
+            Copiar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-4 right-4 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-medium shadow-xl flex items-center gap-2">
+    <span id="toast-icon">鉁?/span>
+    <span id="toast-message">Copiado al portapapeles</span>
+  </div>
+
+  <!-- ==================== LOGIC & SCRIPTS ==================== -->
+  <script>
+    /* -------------------------------------------------------------
+     * 1. PWA EMBEDDED MANIFEST & SERVICE WORKER VIA BLOB URLs
+     * ------------------------------------------------------------- */
+    (function initPWA() {
+      // Generate SVG App Icon dynamically
+      const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <rect width="512" height="512" rx="100" fill="#2563eb"/>
+        <circle cx="256" cy="256" r="170" fill="none" stroke="#ffffff" stroke-width="24" stroke-dasharray="8 8"/>
+        <polygon points="256,120 310,240 256,392 202,240" fill="#ffffff"/>
+        <polygon points="256,120 310,240 256,256" fill="#ef4444"/>
+        <polygon points="256,392 202,240 256,256" fill="#cbd5e1"/>
+      </svg>`;
+      const iconDataUri = 'data:image/svg+xml;base64,' + btoa(iconSvg);
+
+      // Web App Manifest
+      const manifest = {
+        name: "Maturity Roadmap: Agentic AI in QA",
+        short_name: "Roadmap AI",
+        description: "Institutional Diagnostic Tool for Quality Assurance & Accreditation",
+        start_url: window.location.href,
+        display: "standalone",
+        background_color: "#0f172a",
+        theme_color: "#2563eb",
+        icons: [
+          { src: iconDataUri, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+          { src: iconDataUri, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+        ]
+      };
+
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = manifestUrl;
+      document.head.appendChild(manifestLink);
+
+      // Favicon
+      const favLink = document.createElement('link');
+      favLink.rel = 'icon';
+      favLink.href = iconDataUri;
+      document.head.appendChild(favLink);
+
+      // Register Service Worker for offline shell support
+      if ('serviceWorker' in navigator) {
+        const swScript = `
+          const CACHE_NAME = 'maturity-roadmap-v1';
+          self.addEventListener('install', (e) => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', (e) => {
+            e.waitUntil(clients.claim());
+          });
+          self.addEventListener('fetch', (e) => {
+            // Network first with cache fallback
+            e.respondWith(
+              fetch(e.request).catch(() => caches.match(e.request))
+            );
+          });
+        `;
+        const swBlob = new Blob([swScript], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(swBlob);
+        navigator.serviceWorker.register(swUrl).catch((err) => {
+          console.warn('SW register note:', err);
+        });
+      }
+
+      // Online/Offline listener
+      function updateOnlineStatus() {
+        const isOnline = navigator.onLine;
+        const statusEl = document.getElementById('pwa-status');
+        const labelEl = document.getElementById('status-label');
+        if (isOnline) {
+          statusEl.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300";
+          labelEl.textContent = currentLang === 'ES' ? 'Online' : 'Online';
+        } else {
+          statusEl.className = "inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300";
+          labelEl.textContent = currentLang === 'ES' ? 'Offline (PWA)' : 'Offline (PWA)';
+        }
+      }
+      window.addEventListener('online', updateOnlineStatus);
+      window.addEventListener('offline', updateOnlineStatus);
+      updateOnlineStatus();
+
+      // PWA Install Prompt handling
+      let deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('pwa-install-btn');
+        installBtn.classList.remove('hidden');
+        installBtn.classList.add('inline-flex');
+        
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            installBtn.classList.add('hidden');
+          }
+          deferredPrompt = null;
+        });
+      });
+    })();
+
+    /* -------------------------------------------------------------
+     * 2. BILINGUAL CONTENT DICTIONARY
+     * ------------------------------------------------------------- */
+    const CONTENT = {
+      ES: {
+        appTitle: "Hoja de Ruta de Madurez",
+        appSubtitle: "IA Ag茅ntica en Aseguramiento de Calidad",
+        bannerHead: "Marco de Diagn贸stico Institucional",
+        bannerSub: "Herramienta de autodiagn贸stico 茅tico y t茅cnico para agencias e instituciones de educaci贸n superior (Beyond Compliance).",
+        tab1: "1. Diagn贸stico",
+        tab2: "2. Resultados",
+        tab3: "3. Transici贸n",
+        assessTitle: "馃搵 Autoevaluaci贸n Institucional",
+        assessSub: "Seleccione el estado operativo y regulatorio actual de su agencia en cada dimensi贸n:",
+        reset: "Restablecer",
+        gotoResults: "Ver Resultados y Radar",
+        kpiScore: "Puntaje Global",
+        kpiLevel: "Nivel de Madurez",
+        kpiArchetype: "Perfil Ag茅ntico",
+        radarTitle: "Mapa Radial de Capacidades Evaluativas",
+        radarStanding: "Posici贸n Actual",
+        nextStepTitle: "Pr贸ximo Paso Estrat茅gico",
+        heatTitle: "馃搱 An谩lisis Institucional de Transici贸n y Trayectoria",
+        heatSub: "Contraste el estado inicial o l铆nea base (T鈧€) contra la autoevaluaci贸n actual (T鈧?.",
+        heatConfig: "鈿欙笍 Configurar Estado de L铆nea Base (T鈧€)",
+        heatMatrixTitle: "Matriz de Calor: Desplazamiento por Dimensi贸n",
+        thDim: "Dimensi贸n",
+        thDelta: "螖 Cambio",
+        legendTitle: "C贸digo Sem谩ntico de Transici贸n:",
+        legRegress: "Retroceso (-螖)",
+        legStable: "Paridad (0)",
+        legAdvance: "Avance (+螖)",
+        metricBase: "L铆nea Base (T鈧€)",
+        metricCurr: "Evaluaci贸n Actual (T鈧?",
+        metricShift: "Desplazamiento Neto (螖)",
+        modalTitle: "Acceso R谩pido / Compartir",
+        modalSub: "Escanee este c贸digo QR para abrir y completar el diagn贸stico en su dispositivo m贸vil.",
+        copyBtn: "Copiar",
+        installBtn: "Instalar App",
+        balancedBadge: "Despliegue Equilibrado",
+        riskBadge: "Alerta de Brecha",
+        archetypes: {
+          1: { name: "Agente Reactivo", desc: "Adopci贸n ad-hoc sin marco regulatorio consolidado." },
+          2: { name: "Agente Deliberativo", desc: "Pruebas en sandbox y protocolos 茅ticos en borrador." },
+          3: { name: "Agente Anticipativo", desc: "Gobernanza RACI formalizada y RAG soberano funcional." },
+          4: { name: "Agente Prescriptivo", desc: "Ecosistema multi-agente auditado (HAACS) con juicio amplificado." }
+        },
+        levels: {
+          1: "Nivel 1",
+          2: "Nivel 2",
+          3: "Nivel 3",
+          4: "Nivel 4"
+        },
+        dimensions: {
+          gov: {
+            name: "Gobernanza y Supervisi贸n Humana",
+            short: "Gobernanza",
+            desc: "Marcos normativos, pol铆ticas institucionales, protocolos Human-in-the-Loop (HITL) y rendici贸n de cuentas formal.",
+            options: {
+              1: "Nivel 1: Sin pol铆tica ni supervisi贸n formal. Adopci贸n de IA ad-hoc e individual sin gobernanza institucional.",
+              2: "Nivel 2: Redacci贸n de normativas en marcha; pilotos iniciales en entornos de prueba con salvaguardas HITL b谩sicas.",
+              3: "Nivel 3: Pol铆tica consolidada, matriz RACI formal (responsabilidad definida por etapa) y supervisi贸n estructurada.",
+              4: "Nivel 4: Gobernanza multi-agente auditada (p. ej. HAACS), evaluaci贸n normativa continua y vigilancia estrat茅gica proactiva."
+            }
+          },
+          data: {
+            name: "Arquitectura y Soberan铆a de Datos",
+            short: "Datos y RAG",
+            desc: "Privacidad de datos, infraestructura institucional, trazabilidad de evidencias y arquitecturas RAG soberanas.",
+            options: {
+              1: "Nivel 1: Dependencia de LLMs/APIs comerciales de caja negra, ad-hoc y sin garant铆as de soberan铆a de datos.",
+              2: "Nivel 2: Pruebas en sandbox; requerimientos arquitect贸nicos formalizados para implementar RAG soberano.",
+              3: "Nivel 3: Arquitectura RAG soberana o semi-soberana en producci贸n; prompts auditados y estandarizados.",
+              4: "Nivel 4: Ecosistema multi-agente plenamente soberano con profunda integraci贸n de datos e historiales de auditor铆a rigurosos."
+            }
+          },
+          eval: {
+            name: "Estandarizaci贸n de Procesos Evaluativos",
+            short: "Estandarizaci贸n",
+            desc: "Alcance, integraci贸n y normalizaci贸n de herramientas de IA en las etapas de evaluaci贸n y acreditaci贸n.",
+            options: {
+              1: "Nivel 1: Uso fragmentado y aislado, sin articulaci贸n formal en las fases de autoevaluaci贸n o revisi贸n.",
+              2: "Nivel 2: Aplicaci贸n selectiva en etapas aisladas (p. ej. redacci贸n o s铆ntesis preliminar de informes).",
+              3: "Nivel 3: Asistencia institucionalizada y generalizada de IA en todas las fases de evaluaci贸n y acreditaci贸n externa.",
+              4: "Nivel 4: Procesos evaluativos integrales potenciados y orquestados fluidamente mediante agentes de IA."
+            }
+          },
+          cult: {
+            name: "Cultura, Capacidades y Alfabetizaci贸n Cr铆tica",
+            short: "Alfabetizaci贸n",
+            desc: "Desarrollo de competencias, formaci贸n t茅cnica de evaluadores y protecci贸n activa contra la desprofesionalizaci贸n.",
+            options: {
+              1: "Nivel 1: Capacitaci贸n digital incipiente e instrumental centrada 煤nicamente en el manejo b谩sico de herramientas.",
+              2: "Nivel 2: Programas estructurados de formaci贸n en marcha para evaluadores pares y personal t茅cnico.",
+              3: "Nivel 3: Competencia institucional instalada: personal y evaluadores aplican IA con criterio informado y cr铆tico.",
+              4: "Nivel 4: Alfabetizaci贸n cr铆tica institucionalizada; revisiones continuas para salvaguardar el juicio experto."
+            }
+          },
+          ethic: {
+            name: "脡tica y Rigor Epistemol贸gico",
+            short: "脡tica y Epist茅mica",
+            desc: "Mitigaci贸n de alucinaciones, gesti贸n de la Trampa de Turing y compromiso con la amplificaci贸n de capacidades humanas.",
+            options: {
+              1: "Nivel 1: Sin auditor铆a de sesgos ni verificaci贸n formal de alucinaciones; enfoque centrado en la automatizaci贸n r谩pida.",
+              2: "Nivel 2: Reconocimiento expreso de riesgos epist茅micos; lineamientos iniciales y deliberaci贸n 茅tica interna.",
+              3: "Nivel 3: Validaci贸n humana obligatoria; prompts auditados para evitar sesgos y transparencia institucional activa.",
+              4: "Nivel 4: Modelo pleno de ampliaci贸n de capacidades: juicio experto blindado y complementado con supervisi贸n multi-agente."
+            }
+          }
+        }
+      },
+      EN: {
+        appTitle: "Maturity Roadmap",
+        appSubtitle: "Agentic AI in QA & Accreditation",
+        bannerHead: "Institutional Diagnostic Framework",
+        bannerSub: "A Human-Centric Diagnostic Tool for Quality Assurance & Higher Education Accreditation (Beyond Compliance).",
+        tab1: "1. Assessment",
+        tab2: "2. Results",
+        tab3: "3. Transition",
+        assessTitle: "馃搵 Institutional Self-Assessment",
+        assessSub: "Select the option that best reflects the current operational and regulatory status of your QA agency:",
+        reset: "Reset Defaults",
+        gotoResults: "View Results & Radar",
+        kpiScore: "Overall Score",
+        kpiLevel: "Maturity Level",
+        kpiArchetype: "Agent Profile",
+        radarTitle: "Evaluative Capacity Radar Map",
+        radarStanding: "Current Standing",
+        nextStepTitle: "Strategic Next Step",
+        heatTitle: "馃搱 Institutional Transition & Trajectory Analysis",
+        heatSub: "Compare your initial baseline state (T鈧€) against your current self-assessment (T鈧?.",
+        heatConfig: "鈿欙笍 Configure Baseline State (T鈧€)",
+        heatMatrixTitle: "Heatmap Matrix: Transition Shift by Dimension",
+        thDim: "Dimension",
+        thDelta: "螖 Shift",
+        legendTitle: "Transition Semantic Code:",
+        legRegress: "Regression (-螖)",
+        legStable: "Parity (0)",
+        legAdvance: "Advance (+螖)",
+        metricBase: "Baseline (T鈧€)",
+        metricCurr: "Current (T鈧?",
+        metricShift: "Net Shift (螖)",
+        modalTitle: "Quick Access / Share",
+        modalSub: "Scan this QR code with a phone camera to run the self-diagnostic on mobile.",
+        copyBtn: "Copy Link",
+        installBtn: "Install App",
+        balancedBadge: "Balanced Deployment",
+        riskBadge: "Governance Alert",
+        archetypes: {
+          1: { name: "Reactive Agent", desc: "Ad-hoc adoption lacking an institutional governance framework." },
+          2: { name: "Deliberative Agent", desc: "Sandbox trials with preliminary human-in-the-loop safeguards." },
+          3: { name: "Anticipative Agent", desc: "Consolidated RACI policy and functioning sovereign RAG." },
+          4: { name: "Prescriptive Agent", desc: "Audited multi-agent ecosystem (HAACS) with amplified evaluative judgment." }
+        },
+        levels: {
+          1: "Level 1",
+          2: "Level 2",
+          3: "Level 3",
+          4: "Level 4"
+        },
+        dimensions: {
+          gov: {
+            name: "Governance & Human Oversight",
+            short: "Governance",
+            desc: "Regulatory frameworks, institutional policies, Human-in-the-Loop (HITL) protocols, and formal accountability.",
+            options: {
+              1: "Level 1: No formal policy or oversight. Ad-hoc, individual AI adoption without institutional governance.",
+              2: "Level 2: Policy and regulatory drafting underway; initial sandbox pilots with basic HITL safeguards.",
+              3: "Level 3: Consolidated normative policy, formal RACI matrix (accountability defined per phase), and structured oversight.",
+              4: "Level 4: Audited multi-agent governance (e.g., HAACS), continuous policy assessment, and proactive strategic oversight."
+            }
+          },
+          data: {
+            name: "Data Architecture & Sovereignty",
+            short: "Data & RAG",
+            desc: "Data privacy, institutional infrastructure, evidence traceability, and proprietary RAG architectures.",
+            options: {
+              1: "Level 1: Reliance on ad-hoc, public, black-box commercial LLMs/APIs with no data sovereignty guarantees.",
+              2: "Level 2: Testing in sandbox environments; architectural design and requirements defined for sovereign RAG.",
+              3: "Level 3: Production-grade sovereign or semi-soberano RAG architecture; standardized and audited prompts.",
+              4: "Level 4: Fully sovereign multi-agent ecosystem with deep institutional data integration and rigorous audit logs."
+            }
+          },
+          eval: {
+            name: "Standardization of Evaluative Processes",
+            short: "Standardization",
+            desc: "Scope, integration, and standardization of AI tools across all stages of accreditation reviews.",
+            options: {
+              1: "Level 1: Fragmented, ad-hoc usage not formally embedded into any review or self-evaluation stage.",
+              2: "Level 2: Selective application in isolated phases (e.g., drafting or summarizing self-evaluation reports).",
+              3: "Level 3: Generalized, institutionalized AI support across all phases of external evaluation and accreditation.",
+              4: "Level 4: End-to-end evaluative processes augmented and seamlessly orchestrated by agentic AI systems."
+            }
+          },
+          cult: {
+            name: "Culture, Capabilities & Critical Literacy",
+            short: "Literacy",
+            desc: "Capacity building, peer-reviewer literacy, and active protection against professional deskilling.",
+            options: {
+              1: "Level 1: Incipient, fragmented digital training focused only on basic instrumental AI usage.",
+              2: "Level 2: Structured capacity-building programs underway for reviewers and technical accreditation staff.",
+              3: "Level 3: Established institutional capability: reviewers and staff proficiently use AI with informed judgment.",
+              4: "Level 4: Critical AI literacy institutionalized; continuous reviews to safeguard expert evaluative judgment."
+            }
+          },
+          ethic: {
+            name: "Ethics & Epistemological Rigor",
+            short: "Ethics & Rigor",
+            desc: "Mitigation of hallucinations, managing the Turing Trap, and commitment to human-value capacity-up.",
+            options: {
+              1: "Level 1: No formal hallucination auditing or bias checks; focus solely on short-term task automation.",
+              2: "Level 2: Explicit recognition of epistemic risks; preliminary guidelines and internal ethical debates.",
+              3: "Level 3: Mandatory human sign-off; audited prompts to prevent bias; active institutional transparency.",
+              4: "Level 4: Full 'Capacity-Up' model: human expert judgment fully protected and amplified via rigorous multi-agent oversight."
+            }
+          }
+        }
+      }
+    };
+
+    /* -------------------------------------------------------------
+     * 3. APPLICATION STATE MANAGEMENT
+     * ------------------------------------------------------------- */
+    const DIM_KEYS = ['gov', 'data', 'eval', 'cult', 'ethic'];
+    
+    let currentLang = localStorage.getItem('mr_lang') || 'ES';
+    let isDarkMode = localStorage.getItem('mr_theme') === 'dark' || 
+      (!localStorage.getItem('mr_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    // Current responses (T1)
+    let stateCurrent = {
+      gov: 1,
+      data: 1,
+      eval: 1,
+      cult: 1,
+      ethic: 1
+    };
+
+    // Baseline responses (T0)
+    let stateBaseline = {
+      gov: 1,
+      data: 1,
+      eval: 1,
+      cult: 1,
+      ethic: 1
+    };
+
+    // Restore cached scores if present
+    try {
+      const savedT1 = localStorage.getItem('mr_state_t1');
+      if (savedT1) stateCurrent = Object.assign(stateCurrent, JSON.parse(savedT1));
+      const savedT0 = localStorage.getItem('mr_state_t0');
+      if (savedT0) stateBaseline = Object.assign(stateBaseline, JSON.parse(savedT0));
+    } catch(e) {}
+
+    let radarChart = null;
+
+    /* -------------------------------------------------------------
+     * 4. THEME & LANGUAGE CONTROLLERS
+     * ------------------------------------------------------------- */
+    function applyTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      if (isDarkMode) {
+        html.classList.add('dark');
+        themeIcon.textContent = '鈽€锔?;
+        localStorage.setItem('mr_theme', 'dark');
+      } else {
+        html.classList.remove('dark');
+        themeIcon.textContent = '馃寵';
+        localStorage.setItem('mr_theme', 'light');
+      }
+      if (radarChart) {
+        updateRadarChart();
+      }
+    }
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      applyTheme();
+    });
+
+    document.getElementById('lang-btn').addEventListener('click', () => {
+      currentLang = currentLang === 'ES' ? 'EN' : 'ES';
+      localStorage.setItem('mr_lang', currentLang);
+      document.getElementById('lang-btn').textContent = currentLang === 'ES' ? '馃嚜馃嚫 ES' : '馃嚭馃嚫 EN';
+      renderAll();
+    });
+
+    /* -------------------------------------------------------------
+     * 5. TAB SWITCHING
+     * ------------------------------------------------------------- */
+    function switchTab(tabId) {
+      const views = ['assessment', 'dashboard', 'heatmap'];
+      views.forEach(v => {
+        const viewEl = document.getElementById(`view-${v}`);
+        const navEl = document.getElementById(`nav-${v}`);
+        if (v === tabId) {
+          viewEl.classList.remove('hidden');
+          navEl.classList.remove('text-slate-600', 'dark:text-slate-400');
+          navEl.classList.add('bg-white', 'dark:bg-slate-900', 'text-blue-600', 'dark:text-blue-400', 'shadow');
+        } else {
+          viewEl.classList.add('hidden');
+          navEl.classList.remove('bg-white', 'dark:bg-slate-900', 'text-blue-600', 'dark:text-blue-400', 'shadow');
+          navEl.classList.add('text-slate-600', 'dark:text-slate-400');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (tabId === 'dashboard') {
+        setTimeout(updateRadarChart, 50);
+      }
+    }
+
+    /* -------------------------------------------------------------
+     * 6. RENDERING FUNCTIONS
+     * ------------------------------------------------------------- */
+    function renderAll() {
+      const t = CONTENT[currentLang];
+      
+      // Update UI labels
+      document.getElementById('app-title').textContent = t.appTitle;
+      document.getElementById('app-subtitle').textContent = t.appSubtitle;
+      document.getElementById('banner-head').textContent = t.bannerHead;
+      document.getElementById('banner-sub').textContent = t.bannerSub;
+      document.getElementById('tab-label-1').textContent = t.tab1;
+      document.getElementById('tab-label-2').textContent = t.tab2;
+      document.getElementById('tab-label-3').textContent = t.tab3;
+      document.getElementById('assess-title').textContent = t.assessTitle;
+      document.getElementById('assess-subtitle').textContent = t.assessSub;
+      document.getElementById('btn-reset-text').textContent = t.reset;
+      document.getElementById('btn-goto-results').textContent = t.gotoResults;
+      document.getElementById('kpi-score-title').textContent = t.kpiScore;
+      document.getElementById('kpi-level-title').textContent = t.kpiLevel;
+      document.getElementById('kpi-archetype-title').textContent = t.kpiArchetype;
+      document.getElementById('radar-title').innerHTML = `<span>馃暩锔?/span> ${t.radarTitle}`;
+      document.getElementById('next-step-title').innerHTML = `<span>馃殌</span> ${t.nextStepTitle}`;
+      document.getElementById('heat-title').textContent = t.heatTitle;
+      document.getElementById('heat-subtitle').textContent = t.heatSub;
+      document.getElementById('baseline-config-header').textContent = t.heatConfig;
+      document.getElementById('heat-matrix-title').textContent = t.heatMatrixTitle;
+      document.getElementById('th-dimension').textContent = t.thDim;
+      document.getElementById('th-delta').textContent = t.thDelta;
+      document.getElementById('heat-legend-title').textContent = t.legendTitle;
+      document.getElementById('leg-regress').textContent = t.legRegress;
+      document.getElementById('leg-stable').textContent = t.legStable;
+      document.getElementById('leg-advance').textContent = t.legAdvance;
+      document.getElementById('lbl-metric-base').textContent = t.metricBase;
+      document.getElementById('lbl-metric-curr').textContent = t.metricCurr;
+      document.getElementById('lbl-metric-shift').textContent = t.metricShift;
+      document.getElementById('modal-share-title').textContent = t.modalTitle;
+      document.getElementById('modal-share-sub').textContent = t.modalSub;
+      document.getElementById('btn-copy-url').textContent = t.copyBtn;
+      document.getElementById('btn-install-text').textContent = t.installBtn;
+
+      renderDimensions();
+      renderBaselineSliders();
+      calculateAndRenderDashboard();
+      renderHeatmap();
+    }
+
+    // Render Questionnaire (Tab 1)
+    function renderDimensions() {
+      const t = CONTENT[currentLang];
+      const container = document.getElementById('dimensions-container');
+      container.innerHTML = '';
+
+      DIM_KEYS.forEach((key, idx) => {
+        const dim = t.dimensions[key];
+        const currentVal = stateCurrent[key];
+
+        const card = document.createElement('div');
+        card.className = "p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-all";
+
+        let optionsHtml = '';
+        [1, 2, 3, 4].forEach(level => {
+          const isSelected = currentVal === level;
+          optionsHtml += `
+            <label class="flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all border ${
+              isSelected 
+                ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-500 text-blue-950 dark:text-blue-100 font-medium' 
+                : 'hover:bg-slate-50 dark:hover:bg-slate-800/60 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+            }">
+              <input type="radio" name="dim_${key}" value="${level}" ${isSelected ? 'checked' : ''} 
+                onchange="handleOptionChange('${key}', ${level})"
+                class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-700">
+              <span class="text-xs sm:text-sm leading-relaxed">${dim.options[level]}</span>
+            </label>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Dimensi贸n 0${idx + 1}</span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">${dim.name}</h3>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+              L${currentVal}
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">${dim.desc}</p>
+          <div class="space-y-2">
+            ${optionsHtml}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function handleOptionChange(key, level) {
+      stateCurrent[key] = parseInt(level, 10);
+      localStorage.setItem('mr_state_t1', JSON.stringify(stateCurrent));
+      renderDimensions();
+      calculateAndRenderDashboard();
+      renderHeatmap();
+    }
+
+    // Render Baseline sliders (Tab 3)
+    function renderBaselineSliders() {
+      const t = CONTENT[currentLang];
+      const container = document.getElementById('baseline-sliders-container');
+      container.innerHTML = '';
+
+      DIM_KEYS.forEach(key => {
+        const dim = t.dimensions[key];
+        const val = stateBaseline[key];
+
+        const row = document.createElement('div');
+        row.className = "space-y-1.5";
+        row.innerHTML = `
+          <div class="flex items-center justify-between text-xs sm:text-sm">
+            <span class="font-medium text-slate-700 dark:text-slate-300">${dim.name}</span>
+            <span class="font-bold text-blue-600 dark:text-blue-400" id="baseline-val-${key}">L${val}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] text-slate-400">L1</span>
+            <input type="range" min="1" max="4" step="1" value="${val}"
+              oninput="handleBaselineChange('${key}', this.value)"
+              class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer">
+            <span class="text-[11px] text-slate-400">L4</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function handleBaselineChange(key, value) {
+      const parsed = parseInt(value, 10);
+      stateBaseline[key] = parsed;
+      localStorage.setItem('mr_state_t0', JSON.stringify(stateBaseline));
+      const labelEl = document.getElementById(`baseline-val-${key}`);
+      if (labelEl) labelEl.textContent = `L${parsed}`;
+      renderHeatmap();
+    }
+
+    function resetDefaults() {
+      stateCurrent = { gov: 1, data: 1, eval: 1, cult: 1, ethic: 1 };
+      stateBaseline = { gov: 1, data: 1, eval: 1, cult: 1, ethic: 1 };
+      localStorage.removeItem('mr_state_t1');
+      localStorage.removeItem('mr_state_t0');
+      renderAll();
+      showToast(currentLang === 'ES' ? 'Valores restablecidos a Nivel 1' : 'Values reset to Level 1');
+    }
+
+    /* -------------------------------------------------------------
+     * 7. DASHBOARD COMPUTATION & RADAR CHART
+     * ------------------------------------------------------------- */
+    function calculateAndRenderDashboard() {
+      const t = CONTENT[currentLang];
+      
+      const scores = Object.values(stateCurrent);
+      const totalScore = scores.reduce((acc, curr) => acc + curr, 0);
+
+      // Level determination
+      let globalLevel = 1;
+      let levelCode = "L1";
+      if (totalScore <= 8) {
+        globalLevel = 1; levelCode = "L1";
+      } else if (totalScore <= 13) {
+        globalLevel = 2; levelCode = "L2";
+      } else if (totalScore <= 17) {
+        globalLevel = 3; levelCode = "L3";
+      } else {
+        globalLevel = 4; levelCode = "L4";
+      }
+
+      const archetypeInfo = t.archetypes[globalLevel];
+
+      // Update KPI DOM
+      document.getElementById('metric-score').textContent = totalScore;
+      document.getElementById('metric-score-bar').style.width = `${(totalScore / 20) * 100}%`;
+      document.getElementById('metric-level').textContent = levelCode;
+      document.getElementById('metric-level-desc').textContent = t.levels[globalLevel];
+      document.getElementById('metric-archetype').textContent = archetypeInfo.name;
+      document.getElementById('metric-archetype-note').textContent = archetypeInfo.desc;
+
+      // Turing Trap / Governance Check:
+      // techLevel = max(data, eval) vs govLevel = min(gov, ethic)
+      const techLevel = Math.max(stateCurrent.data, stateCurrent.eval);
+      const govLevel = Math.min(stateCurrent.gov, stateCurrent.ethic);
+      const isRisk = techLevel > govLevel;
+
+      // Radar status badge
+      const radarStatusBadge = document.getElementById('radar-badge-status');
+      if (isRisk) {
+        radarStatusBadge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300";
+        radarStatusBadge.textContent = t.riskBadge;
+      } else {
+        radarStatusBadge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300";
+        radarStatusBadge.textContent = t.balancedBadge;
+      }
+
+      // Render Governance Box
+      const alertBox = document.getElementById('governance-alert-box');
+      if (isRisk) {
+        alertBox.className = "p-5 rounded-2xl bg-rose-50/90 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50";
+        if (currentLang === 'ES') {
+          alertBox.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">鈿狅笍</span>
+              <div>
+                <h4 class="text-sm font-bold text-rose-900 dark:text-rose-300">
+                  Alerta de Brecha de Gobernanza (The Turing Trap)
+                </h4>
+                <p class="text-xs sm:text-sm text-rose-800 dark:text-rose-200 mt-1 leading-relaxed">
+                  La integraci贸n t茅cnica alcanza el <strong>Nivel ${techLevel}</strong>, pero las salvaguardas de gobernanza y supervisi贸n 茅tica permanecen en el <strong>Nivel ${govLevel}</strong>.
+                </p>
+                <blockquote class="my-2 pl-3 border-l-2 border-rose-400 text-xs italic text-rose-700 dark:text-rose-300">
+                  "El nivel de autonom铆a t茅cnica que es seguro habilitar depende de la madurez de gobernanza alcanzada, no de la disponibilidad tecnol贸gica."
+                </blockquote>
+                <p class="text-xs font-semibold text-rose-900 dark:text-rose-200 mt-2">
+                  馃憠 Recomendaci贸n: Calibre la autonom铆a operativa al umbral de gobernanza institucional para evitar riesgos sist茅micos.
+                </p>
+              </div>
+            </div>
+          `;
+        } else {
+          alertBox.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">鈿狅笍</span>
+              <div>
+                <h4 class="text-sm font-bold text-rose-900 dark:text-rose-300">
+                  Governance Gap Alert (The Turing Trap)
+                </h4>
+                <p class="text-xs sm:text-sm text-rose-800 dark:text-rose-200 mt-1 leading-relaxed">
+                  Technical adoption reaches <strong>Level ${techLevel}</strong>, yet governance and ethical safeguards remain at <strong>Level ${govLevel}</strong>.
+                </p>
+                <blockquote class="my-2 pl-3 border-l-2 border-rose-400 text-xs italic text-rose-700 dark:text-rose-300">
+                  "The level of technical autonomy that is safe to enable depends on the maturity of governance achieved, not on the availability of technology."
+                </blockquote>
+                <p class="text-xs font-semibold text-rose-900 dark:text-rose-200 mt-2">
+                  馃憠 Recommendation: Calibrate operational autonomy back to your governance threshold to prevent institutional exposure.
+                </p>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        alertBox.className = "p-5 rounded-2xl bg-emerald-50/90 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50";
+        if (currentLang === 'ES') {
+          alertBox.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">馃洝锔?/span>
+              <div>
+                <h4 class="text-sm font-bold text-emerald-900 dark:text-emerald-300">
+                  Despliegue Equilibrado y Seguro
+                </h4>
+                <p class="text-xs sm:text-sm text-emerald-800 dark:text-emerald-200 mt-1">
+                  Sus marcos de gobernanza y salvaguardas 茅ticas respaldan de forma adecuada el despliegue t茅cnico actual. La agencia mantiene un control humano riguroso.
+                </p>
+              </div>
+            </div>
+          `;
+        } else {
+          alertBox.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="text-2xl">馃洝锔?/span>
+              <div>
+                <h4 class="text-sm font-bold text-emerald-900 dark:text-emerald-300">
+                  Balanced & Safe Deployment
+                </h4>
+                <p class="text-xs sm:text-sm text-emerald-800 dark:text-emerald-200 mt-1">
+                  Your governance frameworks and epistemological safeguards adequately support your current technical deployment. Human oversight remains intact.
+                </p>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Priority Action Identification (Lagging dimension)
+      let minKey = 'gov';
+      let minVal = 5;
+      DIM_KEYS.forEach(k => {
+        if (stateCurrent[k] < minVal) {
+          minVal = stateCurrent[k];
+          minKey = k;
+        }
+      });
+      const laggingName = t.dimensions[minKey].name;
+      const nextStepEl = document.getElementById('next-step-desc');
+      if (currentLang === 'ES') {
+        nextStepEl.innerHTML = `Su dimensi贸n m谩s cr铆tica de desarrollo institucional es <strong>${laggingName}</strong> (actualmente en <strong>Nivel ${minVal}</strong>). Se recomienda concentrar recursos t茅cnicos y de capacitaci贸n en esta 谩rea antes de facultar mayor autonom铆a ag茅ntica.`;
+      } else {
+        nextStepEl.innerHTML = `Your most critical institutional growth dimension is <strong>${laggingName}</strong> (currently at <strong>Level ${minVal}</strong>). Focus regulatory, architectural, and training resources here prior to authorizing higher agentic autonomy.`;
+      }
+
+      updateRadarChart();
+    }
+
+    function updateRadarChart() {
+      const ctx = document.getElementById('radarChart');
+      if (!ctx) return;
+
+      const t = CONTENT[currentLang];
+      const labels = DIM_KEYS.map(k => t.dimensions[k].short);
+      const dataValues = DIM_KEYS.map(k => stateCurrent[k]);
+
+      const techLevel = Math.max(stateCurrent.data, stateCurrent.eval);
+      const govLevel = Math.min(stateCurrent.gov, stateCurrent.ethic);
+      const isRisk = techLevel > govLevel;
+
+      const fillColor = isRisk ? 'rgba(239, 68, 68, 0.25)' : 'rgba(34, 197, 94, 0.25)';
+      const strokeColor = isRisk ? '#ef4444' : '#22c55e';
+      const pointColor = isRisk ? '#b91c1c' : '#15803d';
+
+      const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)';
+      const labelColor = isDarkMode ? '#e2e8f0' : '#334155';
+
+      if (radarChart) {
+        radarChart.destroy();
+      }
+
+      radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: t.radarStanding,
+            data: dataValues,
+            fill: true,
+            backgroundColor: fillColor,
+            borderColor: strokeColor,
+            pointBackgroundColor: pointColor,
+            pointBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff',
+            pointHoverBorderColor: strokeColor,
+            borderWidth: 2.5,
+            pointRadius: 4.5,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return ` ${context.label}: Nivel ${context.raw}`;
+                }
+              }
+            }
+          },
+          scales: {
+            r: {
+              min: 0,
+              max: 4,
+              ticks: {
+                stepSize: 1,
+                display: true,
+                color: labelColor,
+                backdropColor: 'transparent',
+                callback: function(val) {
+                  if (val === 0) return '';
+                  return 'L' + val;
+                }
+              },
+              grid: {
+                color: gridColor
+              },
+              angleLines: {
+                color: gridColor
+              },
+              pointLabels: {
+                font: {
+                  size: 11,
+                  weight: '600'
+                },
+                color: labelColor
+              }
+            }
+          }
+        }
+      });
+    }
+
+    /* -------------------------------------------------------------
+     * 8. HEATMAP MATRIX GENERATION (Tab 3)
+     * ------------------------------------------------------------- */
+    function renderHeatmap() {
+      const t = CONTENT[currentLang];
+      const tbody = document.getElementById('heatmap-table-body');
+      tbody.innerHTML = '';
+
+      let baseTotal = 0;
+      let currTotal = 0;
+      let regressionsCount = 0;
+      let progressCount = 0;
+
+      DIM_KEYS.forEach(key => {
+        const dim = t.dimensions[key];
+        const b = stateBaseline[key];
+        const c = stateCurrent[key];
+        const delta = c - b;
+
+        baseTotal += b;
+        currTotal += c;
+
+        if (delta < 0) regressionsCount++;
+        if (delta > 0) progressCount++;
+
+        // Shift color code styling
+        let deltaBg = "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+        let deltaBadgeText = "0 (Paridad)";
+        if (currentLang === 'EN') deltaBadgeText = "0 (Parity)";
+
+        if (delta > 0) {
+          deltaBg = "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800";
+          deltaBadgeText = `+${delta} (${currentLang === 'ES' ? 'Avance' : 'Advance'})`;
+        } else if (delta < 0) {
+          deltaBg = "bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-800";
+          deltaBadgeText = `${delta} (${currentLang === 'ES' ? 'Retroceso' : 'Regression'})`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors";
+        tr.innerHTML = `
+          <td class="py-3 px-3">
+            <span class="font-semibold text-slate-900 dark:text-white block">${dim.name}</span>
+            <span class="text-[11px] text-slate-400 font-normal">${dim.short}</span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="inline-block px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold">
+              L${b}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="inline-block px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold">
+              L${c}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold ${deltaBg}">
+              ${deltaBadgeText}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const netShift = currTotal - baseTotal;
+      document.getElementById('t0-score').textContent = `${baseTotal} / 20`;
+      document.getElementById('t1-score').textContent = `${currTotal} / 20`;
+      
+      const deltaEl = document.getElementById('delta-score');
+      if (netShift > 0) {
+        deltaEl.textContent = `+${netShift}`;
+        deltaEl.className = "text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1";
+      } else if (netShift < 0) {
+        deltaEl.textContent = `${netShift}`;
+        deltaEl.className = "text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1";
+      } else {
+        deltaEl.textContent = "0";
+        deltaEl.className = "text-2xl font-bold text-slate-500 mt-1";
+      }
+
+      // Heatmap Alert
+      const alertContainer = document.getElementById('heatmap-alert');
+      if (regressionsCount > 0) {
+        alertContainer.className = "p-4 rounded-xl border bg-rose-50/90 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900 text-rose-900 dark:text-rose-200 text-xs sm:text-sm font-medium";
+        alertContainer.innerHTML = currentLang === 'ES' 
+          ? `鈿狅笍 <strong>Vulnerabilidad Institucional Detectada:</strong> Se identifican ${regressionsCount} dimensi贸n(es) con retroceso relativo. Verifique que la aceleraci贸n instrumental no haya sacrificado el rigor epistemol贸gico o la supervisi贸n institucional.`
+          : `鈿狅笍 <strong>Institutional Vulnerability Detected:</strong> ${regressionsCount} dimension(s) reflect relative regression. Verify that technical acceleration has not eroded epistemological rigor or human oversight.`;
+      } else if (netShift > 0) {
+        alertContainer.className = "p-4 rounded-xl border bg-emerald-50/90 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm font-medium";
+        alertContainer.innerHTML = currentLang === 'ES'
+          ? `馃搱 <strong>Trayectoria Favorable:</strong> La agencia exhibe un desplazamiento neto acumulado de <strong>+${netShift} puntos</strong> en sus capacidades evaluativas ag茅nticas.`
+          : `馃搱 <strong>Positive Trajectory:</strong> The agency exhibits an aggregated net advance of <strong>+${netShift} points</strong> across its agentic evaluative capabilities.`;
+      } else {
+        alertContainer.className = "p-4 rounded-xl border bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-medium";
+        alertContainer.innerHTML = currentLang === 'ES'
+          ? `鈩癸笍 <strong>L铆nea Base en Paridad:</strong> El estado diagnosticado actual coincide exactamente con los par谩metros de referencia de la l铆nea base.`
+          : `鈩癸笍 <strong>Stable Baseline Parity:</strong> The current diagnostic status directly mirrors initial baseline parameters.`;
+      }
+    }
+
+    /* -------------------------------------------------------------
+     * 9. QR CODE MODAL & SHARING
+     * ------------------------------------------------------------- */
+    function toggleShareModal(show) {
+      const modal = document.getElementById('share-modal');
+      if (show) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Generate QR Code with current page URL
+        const currentUrl = window.location.href;
+        document.getElementById('share-url-input').value = currentUrl;
+
+        new QRious({
+          element: document.getElementById('qr-canvas'),
+          value: currentUrl,
+          size: 190,
+          background: '#ffffff',
+          foreground: '#0f172a',
+          level: 'H'
+        });
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    document.getElementById('share-btn').addEventListener('click', () => toggleShareModal(true));
+
+    function copyShareUrl() {
+      const input = document.getElementById('share-url-input');
+      input.select();
+      input.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+        showToast(currentLang === 'ES' ? 'Enlace copiado al portapapeles' : 'Link copied to clipboard');
+      } catch (err) {
+        console.error('Copy error', err);
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0');
+      }, 2500);
+    }
+
+    // Initialize application on window load
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme();
+      renderAll();
+    });
+  </script>
+</body>
+</html>
