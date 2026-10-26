@@ -10,6 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Maturity AI">
   
+  <!-- Ícono SVG vectorizado como Data URI -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
 
@@ -19,56 +20,31 @@
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669', 700: '#047857' }
-          }
-        }
-      }
+      darkMode: 'class'
     }
   </script>
-
-  <style>
-    .custom-radio:checked + label {
-      border-color: #3b82f6;
-      background-color: rgba(59, 130, 246, 0.1);
-      font-weight: 600;
-    }
-    .dark .custom-radio:checked + label {
-      border-color: #60a5fa;
-      background-color: rgba(96, 165, 250, 0.2);
-    }
-    .heatmap-cell {
-      transition: all 0.25s ease;
-      color: #ffffff !important;
-      font-weight: 700;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
-  </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-gray-100 min-h-screen transition-colors duration-200">
 
-  <!-- Header -->
+  <!-- Cabecera -->
   <header class="border-b border-gray-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2">
         <span class="text-2xl">🧭</span>
         <div>
-          <h1 id="ui-title" class="text-base sm:text-lg font-bold leading-tight">Institutional Maturity Roadmap</h1>
+          <h1 id="ui-title" class="text-sm sm:text-base font-bold leading-tight">Institutional Maturity Roadmap</h1>
           <p id="ui-subtitle" class="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">Agentic AI in QA & Accreditation</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-1.5 sm:gap-2">
+      <div class="flex items-center gap-2">
         <button id="btn-share" onclick="openShareModal()" class="px-2.5 py-1 text-xs font-medium rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
-          🔗 <span class="hidden sm:inline" id="txt-share">Compartir</span>
+          🔗 <span class="hidden sm:inline">Compartir</span>
         </button>
         <button id="btn-install" onclick="triggerPwaInstall()" class="hidden px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition">
-          📲 <span id="txt-install">Instalar</span>
+          📲 Instalar
         </button>
-        <button onclick="toggleLang()" class="px-2.5 py-1 text-xs font-medium rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
+        <button onclick="toggleLang()" class="px-2.5 py-1 text-xs font-semibold rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
           <span id="lang-indicator">🇪🇸 ES</span>
         </button>
         <button onclick="toggleDarkMode()" class="p-1.5 rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
@@ -93,40 +69,41 @@
 
   <main class="max-w-5xl mx-auto px-4 py-6">
 
-    <!-- PESTAÑA 1 -->
+    <!-- PESTAÑA 1: Autoevaluación -->
     <section id="tab-eval" class="space-y-6">
       <div class="bg-blue-50 dark:bg-slate-800/60 p-4 rounded-xl border border-blue-200 dark:border-slate-700">
         <h2 id="eval-heading" class="text-sm font-bold text-blue-950 dark:text-blue-200">Autoevaluación Institucional</h2>
         <p id="eval-desc" class="text-xs text-blue-800 dark:text-slate-300 mt-1">Seleccione la opción que mejor refleje el estado operativo y regulatorio de su institución:</p>
       </div>
 
+      <!-- Contenedor dinámico de las 5 dimensiones -->
       <div id="dimensions-container" class="space-y-6"></div>
 
       <div class="pt-4 text-center">
-        <button onclick="switchTab('tab-diag')" class="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-sm transition">
+        <button onclick="switchTab('tab-diag')" class="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow transition">
           <span id="btn-view-results">Ver Resultados y Radar ➔</span>
         </button>
       </div>
     </section>
 
-    <!-- PESTAÑA 2 -->
+    <!-- PESTAÑA 2: Resultados y Radar -->
     <section id="tab-diag" class="hidden space-y-6">
       <div class="grid grid-cols-3 gap-3">
-        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm text-center">
+        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
           <p id="lbl-score" class="text-xs text-gray-500 dark:text-gray-400">Puntaje Global</p>
           <p id="val-score" class="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">5 / 20</p>
         </div>
-        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm text-center">
+        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
           <p id="lbl-level" class="text-xs text-gray-500 dark:text-gray-400">Nivel</p>
           <p id="val-level" class="text-lg sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">Level 1</p>
         </div>
-        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm text-center">
+        <div class="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
           <p id="lbl-archetype" class="text-xs text-gray-500 dark:text-gray-400">Perfil</p>
           <p id="val-archetype" class="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400 mt-2 truncate">Reactivo</p>
         </div>
       </div>
 
-      <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex flex-col items-center">
+      <div class="p-4 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 flex flex-col items-center">
         <h3 id="lbl-radar-title" class="text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Posicionamiento en Dimensiones de Calidad</h3>
         <div class="relative w-full max-w-md h-80">
           <canvas id="radarChart"></canvas>
@@ -137,22 +114,20 @@
       <div id="priority-box" class="p-4 rounded-xl bg-sky-50 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700"></div>
     </section>
 
-    <!-- PESTAÑA 3: MAPA DE CALOR (HEATMAP) -->
+    <!-- PESTAÑA 3: Mapa de Calor -->
     <section id="tab-heat" class="hidden space-y-6">
-      <div class="bg-indigo-50 dark:bg-slate-800/60 p-4 rounded-xl border border-indigo-200 dark:border-slate-700">
-        <h2 id="heat-heading" class="text-sm font-bold text-indigo-950 dark:text-indigo-200">Matriz de Transición & Mapa de Calor</h2>
-        <p id="heat-desc" class="text-xs text-indigo-800 dark:text-slate-300 mt-1">Ajuste la Línea Base (T₀) para observar el mapa térmico de avances o retrocesos:</p>
+      <div class="bg-emerald-50 dark:bg-slate-800/60 p-4 rounded-xl border border-emerald-200 dark:border-slate-700">
+        <h2 id="heat-heading" class="text-sm font-bold text-emerald-950 dark:text-emerald-200">Trayectoria de Madurez: Línea Base (T₀) vs Actual (T₁)</h2>
+        <p id="heat-desc" class="text-xs text-emerald-800 dark:text-slate-300 mt-1">Defina el nivel de partida para evaluar avances o retrocesos institucionales:</p>
       </div>
 
-      <!-- Configuración rápida de Línea Base -->
-      <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
-        <h3 id="lbl-set-baseline" class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
-          ⚙️ Ajuste de Línea Base (T₀ - Estado Inicial)
-        </h3>
-        <div id="baseline-selectors" class="space-y-3"></div>
-      </div>
+      <details class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700" open>
+        <summary id="lbl-set-baseline" class="cursor-pointer text-xs font-semibold text-blue-600 dark:text-blue-400 select-none">
+          ⚙️ Modificar niveles de partida (Línea Base T₀)
+        </summary>
+        <div id="baseline-sliders" class="mt-4 space-y-4 pt-3 border-t border-gray-100 dark:border-slate-700"></div>
+      </details>
 
-      <!-- Métricas consolidadas -->
       <div class="grid grid-cols-3 gap-3">
         <div class="p-3 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-center">
           <p id="lbl-base-total" class="text-xs text-gray-500 dark:text-gray-400">Línea Base (T₀)</p>
@@ -168,6 +143,561 @@
         </div>
       </div>
 
-      <!-- MATRIZ TÉRMICA (HEATMAP VISUAL) -->
-      <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm p-2 sm:p-4">
-        <table class
+      <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-gray-100 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
+            <tr>
+              <th id="th-dim" class="p-3">Dimensión</th>
+              <th class="p-3 text-center w-24">T₀ Base</th>
+              <th class="p-3 text-center w-24">T₁ Actual</th>
+              <th class="p-3 text-center w-36">Shift (Δ)</th>
+            </tr>
+          </thead>
+          <tbody id="heatmap-body" class="divide-y divide-gray-200 dark:divide-slate-700"></tbody>
+        </table>
+      </div>
+
+      <div id="heat-summary-alert" class="p-4 rounded-xl border"></div>
+    </section>
+  </main>
+
+  <!-- Modal Compartir -->
+  <div id="share-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 text-center shadow-xl border border-gray-200 dark:border-slate-700">
+      <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-2">Escanear para Autodiagnóstico</h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Escanee el código para acceder directamente desde el móvil.</p>
+      <div class="flex justify-center mb-4">
+        <canvas id="qr-canvas" class="border border-gray-200 dark:border-slate-700 rounded-xl p-2 bg-white"></canvas>
+      </div>
+      <button onclick="copyAppUrl()" id="btn-copy-url" class="w-full py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition">
+        Copiar Enlace
+      </button>
+      <button onclick="closeShareModal()" class="w-full py-2 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {
+      ES: {
+        title: "Hoja de Ruta de Madurez Institucional",
+        subtitle: "IA Agéntica en Aseguramiento de la Calidad y Acreditación",
+        tab1: "1. Autoevaluación",
+        tab2: "2. Resultados & Radar",
+        tab3: "3. Mapa de Calor (Δ)",
+        evalHeading: "Autoevaluación Institucional",
+        evalDesc: "Seleccione la opción que mejor refleje el estado operativo y regulatorio de su institución:",
+        btnViewResults: "Ver Resultados y Radar ➔",
+        score: "Puntaje Global",
+        level: "Nivel",
+        archetype: "Perfil",
+        radarTitle: "Posicionamiento en Dimensiones de Calidad",
+        gapAlertTitle: "Alerta de Brecha de Gobernanza:",
+        gapAlertDesc: "La infraestructura o integración técnica alcanza el <strong>Nivel {tech}</strong>, mientras que la gobernanza o supervisión ética permanece en el <strong>Nivel {gov}</strong>.",
+        quote: "<em>'El nivel de autonomía técnica que es seguro habilitar depende de la madurez de gobernanza alcanzada, no de la disponibilidad de la tecnología.'</em>",
+        rec: "<strong>Recomendación Estratégica:</strong> Calibre la autonomía operativa según su umbral de gobernanza para mitigar riesgos institucionales y preservar el juicio evaluativo humano.",
+        balancedMsg: "<strong>Despliegue Equilibrado:</strong> Sus marcos de gobernanza y salvaguardas epistemológicas respaldan adecuadamente el despliegue técnico actual.",
+        nextStepTitle: "🚀 Próximo Paso Estratégico",
+        laggingInfo: "Su área de desarrollo más crítica es <strong>{dim}</strong> (actualmente en Nivel {lvl}). Priorice los recursos institucionales aquí antes de autorizar mayores niveles de autonomía agéntica.",
+        heatHeading: "Trayectoria de Madurez: Línea Base (T₀) vs Actual (T₁)",
+        heatDesc: "Defina el nivel de partida para evaluar avances o retrocesos institucionales:",
+        setBaseline: "⚙️ Modificar niveles de partida (Línea Base T₀)",
+        baseTotal: "Línea Base (T₀)",
+        currTotal: "Actual (T₁)",
+        netShift: "Desplazamiento (Δ)",
+        thDim: "Dimensión",
+        heatRegressAlert: "⚠️ <strong>Vulnerabilidad Detectada:</strong> Una o más dimensiones muestran retroceso con respecto a la línea base.",
+        heatProgressAlert: "📈 <strong>Trayectoria Favorable:</strong> La institución demuestra un progreso neto acumulado (+{shift} puntos).",
+        heatStableAlert: "ℹ️ <strong>Línea Base Estable:</strong> La evaluación actual coincide con la postura de madurez de partida.",
+        status: { progress: "Avance", stable: "Estable", regress: "Retroceso" },
+        archetypes: { "Level 1": "Agente Reactivo", "Level 2": "Agente Deliberativo", "Level 3": "Agente Anticipativo", "Level 4": "Agente Prescriptivo" },
+        dimensions: {
+          gov: {
+            name: "Gobernanza y Supervisión Humana",
+            desc: "Marcos normativos, políticas, protocolos Human-in-the-Loop (HITL) y rendición de cuentas formal.",
+            options: {
+              1: "Nivel 1: Sin política ni supervisión formal. Adopción de IA ad-hoc e individual sin gobernanza institucional.",
+              2: "Nivel 2: Redacción de normativas en marcha; pilotos en entornos de prueba con salvaguardas HITL básicas.",
+              3: "Nivel 3: Política consolidada, matriz RACI formal y supervisión estructurada por fases evaluativas.",
+              4: "Nivel 4: Gobernanza multi-agente auditada (p. ej. HAACS), evaluación normativa continua y vigilancia estratégica proactiva."
+            }
+          },
+          data: {
+            name: "Arquitectura y Soberanía de Datos",
+            desc: "Privacidad, infraestructura institucional, trazabilidad y arquitecturas RAG soberanas.",
+            options: {
+              1: "Nivel 1: Dependencia de LLMs/APIs comerciales de caja negra sin garantías de soberanía de datos.",
+              2: "Nivel 2: Pruebas en sandbox; requerimientos arquitectónicos para RAG soberano definidos.",
+              3: "Nivel 3: Arquitectura RAG soberana o semi-soberana en producción; prompts auditados y estandarizados.",
+              4: "Nivel 4: Ecosistema multi-agente plenamente soberano con profunda integración de datos y auditoría rigurosa."
+            }
+          },
+          proc: {
+            name: "Estandarización de Procesos Evaluativos",
+            desc: "Alcance, integración y normalización de herramientas de IA en las etapas de acreditación.",
+            options: {
+              1: "Nivel 1: Uso fragmentado y aislado, sin articulación formal en las fases evaluativas.",
+              2: "Nivel 2: Aplicación selectiva en etapas aisladas (p. ej. redacción o síntesis preliminar de informes).",
+              3: "Nivel 3: Asistencia institucionalizada y generalizada de IA en todas las fases de evaluación externa.",
+              4: "Nivel 4: Procesos integrales orquestados y potenciados fluidamente mediante agentes de IA."
+            }
+          },
+          cult: {
+            name: "Cultura, Capacidades y Alfabetización Crítica",
+            desc: "Capacitación, formación de evaluadores y protección contra la desprofesionalización.",
+            options: {
+              1: "Nivel 1: Capacitación digital incipiente e instrumental centrada en el manejo básico de herramientas.",
+              2: "Nivel 2: Programas estructurados de formación en marcha para evaluadores y personal técnico.",
+              3: "Nivel 3: Competencia institucional instalada: personal y evaluadores aplican IA con criterio informado y crítico.",
+              4: "Nivel 4: Alfabetización crítica institucionalizada; revisiones para salvaguardar el juicio experto."
+            }
+          },
+          eth: {
+            name: "Ética y Rigor Epistemológico",
+            desc: "Mitigación de alucinaciones, gestión de la Trampa de Turing y ampliación de capacidades.",
+            options: {
+              1: "Nivel 1: Sin auditoría de sesgos ni verificación formal de alucinaciones; enfoque en automatización rápida.",
+              2: "Nivel 2: Reconocimiento expreso de riesgos epistémicos; lineamientos iniciales y deliberación ética interna.",
+              3: "Nivel 3: Validación humana obligatoria; prompts auditados para evitar sesgos y transparencia institucional activa.",
+              4: "Nivel 4: Ampliación plena de capacidades: juicio experto blindado y complementado con supervisión multi-agente."
+            }
+          }
+        }
+      },
+      EN: {
+        title: "Institutional Maturity Roadmap",
+        subtitle: "Agentic AI in QA & Accreditation",
+        tab1: "1. Assessment",
+        tab2: "2. Results & Radar",
+        tab3: "3. Heatmap (Δ)",
+        evalHeading: "Institutional Self-Assessment",
+        evalDesc: "Select the option that best reflects the operational status of your QA agency:",
+        btnViewResults: "View Diagnostic Profile ➔",
+        score: "Overall Score",
+        level: "Level",
+        archetype: "Agent Profile",
+        radarTitle: "Positioning Across Quality Dimensions",
+        gapAlertTitle: "Governance Gap Alert:",
+        gapAlertDesc: "Technical infrastructure reaches <strong>Level {tech}</strong>, yet governance remains at <strong>Level {gov}</strong>.",
+        quote: "<em>'The level of technical autonomy that is safe to enable depends on the maturity of governance achieved, not on the availability of the technology.'</em>",
+        rec: "<strong>Strategic Recommendation:</strong> Calibrate operational autonomy back to your governance threshold to preserve human evaluative judgment.",
+        balancedMsg: "<strong>Balanced Deployment:</strong> Your governance frameworks adequately support your current technical deployment.",
+        nextStepTitle: "🚀 Strategic Next Step",
+        laggingInfo: "Your most critical area is <strong>{dim}</strong> (currently at Level {lvl}). Prioritize resources here before authorizing higher autonomy.",
+        heatHeading: "Maturity Trajectory: Baseline (T₀) vs Current (T₁)",
+        heatDesc: "Define your baseline to track institutional advancement or regression:",
+        setBaseline: "⚙️ Modify Baseline Levels (T₀)",
+        baseTotal: "Baseline (T₀)",
+        currTotal: "Current (T₁)",
+        netShift: "Net Shift (Δ)",
+        thDim: "Dimension",
+        heatRegressAlert: "⚠️ <strong>Vulnerability Detected:</strong> One or more dimensions show regression compared to your baseline.",
+        heatProgressAlert: "📈 <strong>Positive Trajectory:</strong> The agency demonstrates cumulative progress (+{shift} points).",
+        heatStableAlert: "ℹ️ <strong>Stable Baseline:</strong> Current assessment aligns precisely with the baseline posture.",
+        status: { progress: "Progress", stable: "Stable", regress: "Regression" },
+        archetypes: { "Level 1": "Reactive Agent", "Level 2": "Deliberative Agent", "Level 3": "Anticipative Agent", "Level 4": "Prescriptive Agent" },
+        dimensions: {
+          gov: {
+            name: "Governance & Human Oversight",
+            desc: "Regulatory frameworks, HITL protocols, and formal accountability.",
+            options: {
+              1: "Level 1: No formal policy. Ad-hoc individual AI adoption without institutional governance.",
+              2: "Level 2: Regulatory drafting underway; sandbox pilots with basic HITL safeguards.",
+              3: "Level 3: Consolidated normative policy, formal RACI matrix, and structured oversight.",
+              4: "Level 4: Audited multi-agent governance (e.g. HAACS) and proactive strategic oversight."
+            }
+          },
+          data: {
+            name: "Data Architecture & Sovereignty",
+            desc: "Data privacy, evidence traceability, and proprietary sovereign RAG architectures.",
+            options: {
+              1: "Level 1: Reliance on black-box commercial LLMs with no data sovereignty.",
+              2: "Level 2: Testing in sandbox; architectural design defined for sovereign RAG.",
+              3: "Level 3: Sovereign or semi-sovereign RAG architecture in production; audited prompts.",
+              4: "Level 4: Fully sovereign multi-agent ecosystem with deep integration and audit logs."
+            }
+          },
+          proc: {
+            name: "Standardization of Evaluative Processes",
+            desc: "Integration and standardization of AI tools across review stages.",
+            options: {
+              1: "Level 1: Fragmented, ad-hoc usage not formally embedded into review stages.",
+              2: "Level 2: Selective application in isolated phases (e.g., preliminary drafting).",
+              3: "Level 3: Generalized AI support across all phases of external evaluation.",
+              4: "Level 4: End-to-end processes seamlessly orchestrated by agentic AI systems."
+            }
+          },
+          cult: {
+            name: "Culture, Capabilities & Critical Literacy",
+            desc: "Capacity building, peer-reviewer literacy, and protection against deskilling.",
+            options: {
+              1: "Level 1: Incipient, fragmented digital training focused only on basic usage.",
+              2: "Level 2: Structured training programs underway for reviewers and staff.",
+              3: "Level 3: Established capability: reviewers use AI with informed, critical judgment.",
+              4: "Level 4: Critical AI literacy institutionalized; safeguarding expert judgment."
+            }
+          },
+          eth: {
+            name: "Ethics & Epistemological Rigor",
+            desc: "Mitigation of hallucinations, managing the Turing Trap, and capacity-up.",
+            options: {
+              1: "Level 1: No formal hallucination auditing; focus solely on short-term automation.",
+              2: "Level 2: Explicit recognition of epistemic risks; preliminary guidelines in debate.",
+              3: "Level 3: Mandatory human sign-off; audited prompts to prevent bias.",
+              4: "Level 4: Full capacity-up: expert judgment protected and amplified by multi-agents."
+            }
+          }
+        }
+      }
+    };
+
+    let currentLang = localStorage.getItem('app_lang') || 'ES';
+    let isDark = localStorage.getItem('app_dark') === 'true';
+    let scores = { gov: 1, data: 1, proc: 1, cult: 1, eth: 1 };
+    let baselines = { gov: 1, data: 1, proc: 1, cult: 1, eth: 1 };
+    let radarChartInstance = null;
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('btn-install').classList.remove('hidden');
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          document.getElementById('btn-install').classList.add('hidden');
+        });
+      }
+    }
+
+    function toggleDarkMode() {
+      isDark = !isDark;
+      localStorage.setItem('app_dark', isDark);
+      applyTheme();
+    }
+
+    function applyTheme() {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon').textContent = '🌙';
+      }
+      if (radarChartInstance) renderRadar();
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'ES' ? 'EN' : 'ES';
+      localStorage.setItem('app_lang', currentLang);
+      document.getElementById('lang-indicator').textContent = currentLang === 'ES' ? '🇪🇸 ES' : '🇺🇸 EN';
+      renderAll();
+    }
+
+    function switchTab(tabId) {
+      ['tab-eval', 'tab-diag', 'tab-heat'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+
+      const tabs = { 'tab-eval': 'nav-eval', 'tab-diag': 'nav-diag', 'tab-heat': 'nav-heat' };
+      Object.values(tabs).forEach(navId => {
+        const btn = document.getElementById(navId);
+        btn.classList.remove('border-blue-600', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+        btn.classList.add('border-transparent', 'text-gray-500');
+      });
+
+      const activeNav = document.getElementById(tabs[tabId]);
+      activeNav.classList.remove('border-transparent', 'text-gray-500');
+      activeNav.classList.add('border-blue-600', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+
+      if (tabId === 'tab-diag') renderRadar();
+      if (tabId === 'tab-heat') renderHeatmap();
+    }
+
+    function renderAssessment() {
+      const t = DATA[currentLang];
+      const container = document.getElementById('dimensions-container');
+      container.innerHTML = '';
+
+      Object.entries(t.dimensions).forEach(([key, dim]) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm';
+        
+        let optionsHtml = '';
+        [1, 2, 3, 4].forEach(level => {
+          const isSelected = scores[key] === level;
+          optionsHtml += `
+            <div onclick="updateScore('${key}', ${level})" class="p-3 sm:p-4 rounded-lg border cursor-pointer transition flex items-start gap-3 ${
+              isSelected 
+                ? 'border-blue-500 bg-blue-50/60 dark:bg-blue-950/40 dark:border-blue-400' 
+                : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'
+            }">
+              <input type="radio" name="radio-${key}" value="${level}" ${isSelected ? 'checked' : ''} class="mt-1 accent-blue-600">
+              <div class="text-xs sm:text-sm font-medium ${isSelected ? 'text-blue-900 dark:text-blue-200' : 'text-gray-700 dark:text-gray-300'}">
+                ${dim.options[level]}
+              </div>
+            </div>
+          `;
+        });
+
+        div.innerHTML = `
+          <h3 class="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100">${dim.name}</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 mb-3">${dim.desc}</p>
+          <div class="space-y-2.5">${optionsHtml}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateScore(dim, val) {
+      scores[dim] = val;
+      renderAssessment();
+      updateCalculations();
+    }
+
+    function updateCalculations() {
+      const t = DATA[currentLang];
+      const total = Object.values(scores).reduce((a, b) => a + b, 0);
+      document.getElementById('val-score').textContent = `${total} / 20`;
+
+      let lvl = "Level 1";
+      if (total > 17) lvl = "Level 4";
+      else if (total > 13) lvl = "Level 3";
+      else if (total > 8) lvl = "Level 2";
+
+      document.getElementById('val-level').textContent = lvl;
+      document.getElementById('val-archetype').textContent = t.archetypes[lvl];
+
+      const techLevel = Math.max(scores.data, scores.proc);
+      const govLevel = Math.min(scores.gov, scores.eth);
+      const hasRisk = techLevel > govLevel;
+
+      const riskBox = document.getElementById('risk-alert-box');
+      if (hasRisk) {
+        riskBox.className = "p-4 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/40 dark:border-red-900 text-red-900 dark:text-red-200 text-xs sm:text-sm space-y-2";
+        riskBox.innerHTML = `
+          <div class="font-bold flex items-center gap-1.5 text-red-700 dark:text-red-400 text-sm">
+            <span>⚠️</span> ${t.gapAlertTitle}
+          </div>
+          <p>${t.gapAlertDesc.replace('{tech}', techLevel).replace('{gov}', govLevel)}</p>
+          <div class="border-l-2 border-red-400 pl-3 italic text-xs my-1">${t.quote}</div>
+          <p class="text-xs font-medium">${t.rec}</p>
+        `;
+      } else {
+        riskBox.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/40 dark:border-emerald-900 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm";
+        riskBox.innerHTML = `
+          <div class="font-bold flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+            <span>✅</span> ${t.balancedMsg}
+          </div>
+        `;
+      }
+
+      let laggingKey = Object.keys(scores).reduce((a, b) => scores[a] < scores[b] ? a : b);
+      const prioBox = document.getElementById('priority-box');
+      prioBox.innerHTML = `
+        <h4 class="text-xs font-bold text-sky-900 dark:text-sky-300 uppercase tracking-wider mb-1">${t.nextStepTitle}</h4>
+        <p class="text-xs sm:text-sm text-sky-800 dark:text-sky-200">
+          ${t.laggingInfo.replace('{dim}', t.dimensions[laggingKey].name).replace('{lvl}', scores[laggingKey])}
+        </p>
+      `;
+
+      if (radarChartInstance) renderRadar();
+    }
+
+    function renderRadar() {
+      const t = DATA[currentLang];
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      const techLevel = Math.max(scores.data, scores.proc);
+      const govLevel = Math.min(scores.gov, scores.eth);
+      const hasRisk = techLevel > govLevel;
+
+      const labels = [
+        t.dimensions.gov.name,
+        t.dimensions.data.name,
+        t.dimensions.proc.name,
+        t.dimensions.cult.name,
+        t.dimensions.eth.name
+      ];
+      const dataVals = [scores.gov, scores.data, scores.proc, scores.cult, scores.eth];
+
+      if (radarChartInstance) radarChartInstance.destroy();
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: dataVals,
+            backgroundColor: hasRisk ? 'rgba(239, 68, 68, 0.25)' : 'rgba(16, 185, 129, 0.25)',
+            borderColor: hasRisk ? '#ef4444' : '#10b981',
+            borderWidth: 2,
+            pointBackgroundColor: hasRisk ? '#ef4444' : '#10b981',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 4,
+              ticks: { stepSize: 1, display: false },
+              grid: { color: isDark ? '#334155' : '#e5e7eb' },
+              angleLines: { color: isDark ? '#334155' : '#e5e7eb' },
+              pointLabels: {
+                color: isDark ? '#cbd5e1' : '#374151',
+                font: { size: 10, weight: '500' }
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    function renderBaselineSliders() {
+      const t = DATA[currentLang];
+      const container = document.getElementById('baseline-sliders');
+      container.innerHTML = '';
+
+      Object.entries(t.dimensions).forEach(([key, dim]) => {
+        const div = document.createElement('div');
+        div.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-2';
+        div.innerHTML = `
+          <span class="text-xs font-medium text-gray-700 dark:text-gray-300">${dim.name}</span>
+          <div class="flex items-center gap-2">
+            <input type="range" min="1" max="4" value="${baselines[key]}" 
+              oninput="updateBaseline('${key}', this.value)" class="w-32 accent-blue-600">
+            <span id="base-val-lbl-${key}" class="text-xs font-bold w-12 text-right">L${baselines[key]}</span>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function updateBaseline(key, val) {
+      baselines[key] = parseInt(val);
+      document.getElementById(`base-val-lbl-${key}`).textContent = `L${val}`;
+      renderHeatmap();
+    }
+
+    function renderHeatmap() {
+      const t = DATA[currentLang];
+      const tbody = document.getElementById('heatmap-body');
+      tbody.innerHTML = '';
+
+      let baseSum = 0;
+      let currSum = 0;
+      let hasRegress = false;
+
+      Object.entries(t.dimensions).forEach(([key, dim]) => {
+        const b = baselines[key];
+        const c = scores[key];
+        const delta = c - b;
+        baseSum += b;
+        currSum += c;
+
+        let deltaBadge = '';
+        if (delta > 0) {
+          deltaBadge = `<span class="px-2 py-0.5 rounded font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">+${delta} (${t.status.progress})</span>`;
+        } else if (delta === 0) {
+          deltaBadge = `<span class="px-2 py-0.5 rounded font-medium bg-gray-100 text-gray-700 dark:bg-slate-700 dark:text-gray-300">0 (${t.status.stable})</span>`;
+        } else {
+          hasRegress = true;
+          deltaBadge = `<span class="px-2 py-0.5 rounded font-bold bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300">${delta} (${t.status.regress})</span>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3 font-medium text-gray-800 dark:text-gray-200">${dim.name}</td>
+          <td class="p-3 text-center font-bold text-gray-500">L${b}</td>
+          <td class="p-3 text-center font-bold text-blue-600 dark:text-blue-400">L${c}</td>
+          <td class="p-3 text-center">${deltaBadge}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const netShift = currSum - baseSum;
+      document.getElementById('val-base-total').textContent = `${baseSum} / 20`;
+      document.getElementById('val-curr-total').textContent = `${currSum} / 20`;
+      
+      const shiftEl = document.getElementById('val-net-shift');
+      shiftEl.textContent = `${netShift > 0 ? '+' : ''}${netShift}`;
+      shiftEl.className = `text-lg font-bold mt-1 ${netShift > 0 ? 'text-emerald-600' : (netShift < 0 ? 'text-red-600' : 'text-gray-500')}`;
+
+      const alertBox = document.getElementById('heat-summary-alert');
+      if (hasRegress) {
+        alertBox.className = "p-4 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 text-xs sm:text-sm";
+        alertBox.innerHTML = t.heatRegressAlert;
+      } else if (netShift > 0) {
+        alertBox.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm";
+        alertBox.innerHTML = t.heatProgressAlert.replace('{shift}', netShift);
+      } else {
+        alertBox.className = "p-4 rounded-xl border border-gray-200 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-gray-300 text-xs sm:text-sm";
+        alertBox.innerHTML = t.heatStableAlert;
+      }
+    }
+
+    function renderAll() {
+      const t = DATA[currentLang];
+      document.getElementById('ui-title').textContent = t.title;
+      document.getElementById('ui-subtitle').textContent = t.subtitle;
+      document.getElementById('tab-label-1').textContent = t.tab1;
+      document.getElementById('tab-label-2').textContent = t.tab2;
+      document.getElementById('tab-label-3').textContent = t.tab3;
+      document.getElementById('eval-heading').textContent = t.evalHeading;
+      document.getElementById('eval-desc').textContent = t.evalDesc;
+      document.getElementById('btn-view-results').textContent = t.btnViewResults;
+      document.getElementById('lbl-score').textContent = t.score;
+      document.getElementById('lbl-level').textContent = t.level;
+      document.getElementById('lbl-archetype').textContent = t.archetype;
+      document.getElementById('lbl-radar-title').textContent = t.radarTitle;
+      document.getElementById('heat-heading').textContent = t.heatHeading;
+      document.getElementById('heat-desc').textContent = t.heatDesc;
+      document.getElementById('lbl-set-baseline').textContent = t.setBaseline;
+      document.getElementById('lbl-base-total').textContent = t.baseTotal;
+      document.getElementById('lbl-curr-total').textContent = t.currTotal;
+      document.getElementById('lbl-net-shift').textContent = t.netShift;
+      document.getElementById('th-dim').textContent = t.thDim;
+
+      renderAssessment();
+      renderBaselineSliders();
+      updateCalculations();
+      renderHeatmap();
+    }
+
+    function openShareModal() {
+      document.getElementById('share-modal').classList.remove('hidden');
+      new QRious({
+        element: document.getElementById('qr-canvas'),
+        value: window.location.href,
+        size: 190
+      });
+    }
+
+    function closeShareModal() {
+      document.getElementById('share-modal').classList.add('hidden');
+    }
+
+    function copyAppUrl() {
+      navigator.clipboard.writeText(window.location.href);
+      const btn = document.getElementById('btn-copy-url');
+      btn.textContent = '¡Enlace Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar Enlace', 2000);
+    }
+
+    // Inicialización inmediata y robusta
+    applyTheme();
+    renderAll();
+  </script>
+</body>
+</html>
