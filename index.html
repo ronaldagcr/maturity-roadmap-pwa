@@ -25,11 +25,13 @@
     }
   </script>
 
-  <!-- CDNs: TailwindCSS, Chart.js, Plotly.js y QRious -->
+  <!-- CDNs: TailwindCSS, Chart.js, Plotly.js, QRious, html2canvas y jsPDF -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -50,9 +52,12 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button id="btn-pdf" onclick="generateThreePagePDF()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition flex items-center gap-1 shadow-sm">
+          <span>📄</span> <span class="hidden sm:inline" id="txt-pdf">Descargar PDF</span><span class="sm:hidden">PDF</span>
+        </button>
         <button id="btn-share" onclick="openShareModal()" class="px-2.5 py-1 text-xs font-medium rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
-          🔗 <span class="hidden sm:inline">Compartir</span>
+          🔗 <span class="hidden sm:inline" id="txt-share">Compartir</span>
         </button>
         <button id="btn-install" onclick="triggerPwaInstall()" class="hidden px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition">
           📲 Instalar
@@ -80,7 +85,29 @@
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-4 py-6">
+  <main class="max-w-5xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- Tarjeta Institucional de Metadatos -->
+    <section class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm transition-colors">
+      <div class="flex items-center gap-2 mb-3 border-b border-gray-100 dark:border-slate-700 pb-2">
+        <span class="text-base text-blue-600 dark:text-blue-400">🏛️</span>
+        <h3 id="lbl-meta-title" class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">Ficha Institucional de Diagnóstico</h3>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label id="lbl-org-name" class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Nombre de la Organización</label>
+          <input type="text" id="input-org-name" placeholder="Ej. Agencia / Universidad" value="Agencia Nacional de Calidad" class="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label id="lbl-resp-person" class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Persona Responsable</label>
+          <input type="text" id="input-resp-person" placeholder="Ej. Evaluador Líder" value="Comité Técnico de Acreditación" class="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label id="lbl-eval-date" class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1">Fecha de la Medición (Sistema)</label>
+          <input type="text" id="input-eval-date" readonly class="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 cursor-not-allowed font-medium">
+        </div>
+      </div>
+    </section>
 
     <!-- PESTAÑA 1: Autoevaluación -->
     <section id="tab-eval" class="space-y-6">
@@ -141,21 +168,44 @@
     </section>
   </main>
 
-  <!-- Modal Compartir -->
+  <!-- Modal para Compartir y Enviar por WhatsApp / Email -->
   <div id="share-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 text-center shadow-xl border border-gray-200 dark:border-slate-700">
-      <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-2">Escanear para Autodiagnóstico</h3>
-      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Escanee el código para acceder directamente desde el móvil.</p>
-      <div class="flex justify-center mb-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 text-center shadow-xl border border-gray-200 dark:border-slate-700 space-y-4">
+      <div>
+        <h3 id="modal-title" class="text-base font-bold text-gray-900 dark:text-gray-100">Compartir Diagnóstico</h3>
+        <p id="modal-desc" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Envíe el reporte por WhatsApp, correo o escanee con su teléfono.</p>
+      </div>
+
+      <!-- Canales de comunicación directa -->
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="shareViaWhatsApp()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow transition">
+          <span>💬</span> WhatsApp
+        </button>
+        <button onclick="shareViaEmail()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow transition">
+          <span>✉️</span> Correo
+        </button>
+      </div>
+
+      <div class="flex justify-center my-2">
         <canvas id="qr-canvas" class="border border-gray-200 dark:border-slate-700 rounded-xl p-2 bg-white"></canvas>
       </div>
-      <button onclick="copyAppUrl()" id="btn-copy-url" class="w-full py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition">
-        Copiar Enlace
-      </button>
-      <button onclick="closeShareModal()" class="w-full py-2 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium transition">
-        Cerrar
-      </button>
+
+      <div class="space-y-2">
+        <button onclick="copyAppUrl()" id="btn-copy-url" class="w-full py-2 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-gray-200 rounded-lg text-xs font-medium transition">
+          📋 Copiar Enlace Directo
+        </button>
+        <button onclick="closeShareModal()" class="w-full py-2 border border-gray-300 dark:border-slate-600 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium transition">
+          Cerrar
+        </button>
+      </div>
     </div>
+  </div>
+
+  <!-- Overlay de progreso al generar PDF -->
+  <div id="pdf-spinner" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-white">
+    <div class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
+    <p id="pdf-spinner-text" class="text-sm font-semibold tracking-wide">Generando y descargando PDF oficial (3 Págs)...</p>
+    <p class="text-xs text-gray-300 mt-1">El archivo se guardará automáticamente en tu carpeta de Descargas.</p>
   </div>
 
   <script>
@@ -163,6 +213,11 @@
       ES: {
         title: "Hoja de Ruta de Madurez Institucional",
         subtitle: "IA Agéntica en Aseguramiento de la Calidad y Acreditación",
+        metaTitle: "Ficha Institucional de Diagnóstico",
+        orgLabel: "Nombre de la Organización",
+        respLabel: "Persona Responsable",
+        dateLabel: "Fecha de la Medición (Sistema)",
+        pdfBtn: "Descargar PDF",
         tab1: "1. Autoevaluación",
         tab2: "2. Resultados & Radar",
         tab3: "3. Mapa de Calor (Δ)",
@@ -242,6 +297,11 @@
       EN: {
         title: "Institutional Maturity Roadmap",
         subtitle: "Agentic AI in QA & Accreditation",
+        metaTitle: "Institutional Diagnostic Record",
+        orgLabel: "Organization Name",
+        respLabel: "Lead Evaluator / Person Responsible",
+        dateLabel: "Evaluation Date (System)",
+        pdfBtn: "Download PDF",
         tab1: "1. Assessment",
         tab2: "2. Results & Radar",
         tab3: "3. Heatmap (Δ)",
@@ -325,8 +385,18 @@
     let scores = { gov: 1, data: 1, proc: 1, cult: 1, eth: 1 };
     let radarChartInstance = null;
     let deferredPrompt = null;
+    let lastGeneratedPdfBlob = null;
+    let lastGeneratedPdfFilename = "";
 
-    // Captura del instalador PWA
+    function initSystemDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const locale = currentLang === 'ES' ? 'es-ES' : 'en-US';
+      const formatted = now.toLocaleDateString(locale, options);
+      const inputEl = document.getElementById('input-eval-date');
+      if (inputEl) inputEl.value = formatted;
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -367,6 +437,7 @@
       currentLang = currentLang === 'ES' ? 'EN' : 'ES';
       localStorage.setItem('app_lang', currentLang);
       document.getElementById('lang-indicator').textContent = currentLang === 'ES' ? '🇪🇸 ES' : '🇺🇸 EN';
+      initSystemDate();
       renderAll();
     }
 
@@ -620,10 +691,173 @@
       }
     }
 
+    // GENERADOR PDF (3 PÁGINAS) CON DESCARGA DIRECTA POR DEFECTO
+    async function generateThreePagePDF() {
+      const spinner = document.getElementById('pdf-spinner');
+      spinner.classList.remove('hidden');
+
+      const originalTab = document.getElementById('tab-eval').classList.contains('hidden') 
+        ? (document.getElementById('tab-diag').classList.contains('hidden') ? 'tab-heat' : 'tab-diag') 
+        : 'tab-eval';
+
+      const org = document.getElementById('input-org-name').value || 'Institución';
+      const resp = document.getElementById('input-resp-person').value || 'Responsable';
+      const dateStr = document.getElementById('input-eval-date').value || new Date().toLocaleDateString();
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const tabsToCapture = [
+        { id: 'tab-eval', title: currentLang === 'ES' ? 'Página 1: Cuestionario de Autoevaluación' : 'Page 1: Assessment Questionnaire' },
+        { id: 'tab-diag', title: currentLang === 'ES' ? 'Página 2: Diagnóstico y Posicionamiento Radar' : 'Page 2: Diagnostic & Radar Profile' },
+        { id: 'tab-heat', title: currentLang === 'ES' ? 'Página 3: Mapa de Calor y Transición (Δ)' : 'Page 3: Transition Heatmap (Δ)' }
+      ];
+
+      try {
+        for (let i = 0; i < tabsToCapture.length; i++) {
+          const tab = tabsToCapture[i];
+          switchTab(tab.id);
+          await new Promise(r => setTimeout(r, 450));
+
+          const sectionEl = document.getElementById(tab.id);
+          const canvas = await html2canvas(sectionEl, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: isDark ? '#0f172a' : '#ffffff'
+          });
+
+          if (i > 0) pdf.addPage();
+
+          // Encabezado institucional
+          pdf.setFillColor(30, 41, 59);
+          pdf.rect(0, 0, pdfWidth, 22, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(11);
+          pdf.setFont("helvetica", "bold");
+          pdf.text("🧭 " + DATA[currentLang].title, 14, 9);
+
+          pdf.setFontSize(8);
+          pdf.setFont("helvetica", "normal");
+          pdf.text(`${currentLang === 'ES' ? 'Organización' : 'Agency'}: ${org}  |  ${currentLang === 'ES' ? 'Responsable' : 'Lead'}: ${resp}  |  ${dateStr}`, 14, 16);
+
+          // Título de la página
+          pdf.setTextColor(30, 41, 59);
+          pdf.setFontSize(10);
+          pdf.setFont("helvetica", "bold");
+          pdf.text(tab.title, 14, 29);
+
+          // Renderizado de imagen
+          const imgData = canvas.toDataURL('image/png');
+          const marginX = 14;
+          const startY = 32;
+          const availableWidth = pdfWidth - (marginX * 2);
+          const availableHeight = pdfHeight - startY - 14;
+
+          let imgWidth = availableWidth;
+          let imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          if (imgHeight > availableHeight) {
+            imgHeight = availableHeight;
+            imgWidth = (canvas.width * imgHeight) / canvas.height;
+          }
+
+          const centerX = marginX + (availableWidth - imgWidth) / 2;
+          pdf.addImage(imgData, 'PNG', centerX, startY, imgWidth, imgHeight);
+
+          // Pie de página
+          pdf.setFontSize(8);
+          pdf.setTextColor(148, 163, 184);
+          pdf.text(`Página ${i + 1} de 3  •  Maturity Roadmap: Agentic AI in QA  •  ${dateStr}`, pdfWidth / 2, pdfHeight - 6, { align: 'center' });
+        }
+
+        const safeOrgName = org.replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `Diagnostico_Madurez_IA_${safeOrgName}.pdf`;
+
+        // Guardado forzado y directo al área de descargas predeterminada
+        const pdfBlob = pdf.output('blob');
+        lastGeneratedPdfBlob = pdfBlob;
+        lastGeneratedPdfFilename = filename;
+
+        const downloadUrl = URL.createObjectURL(pdfBlob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = downloadUrl;
+        downloadLink.download = filename;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 3000);
+
+      } catch (err) {
+        console.error('Error al generar PDF:', err);
+        alert(currentLang === 'ES' ? 'Hubo un inconveniente al generar el PDF. Por favor intente nuevamente.' : 'Error generating PDF. Please retry.');
+      } finally {
+        switchTab(originalTab);
+        spinner.classList.add('hidden');
+      }
+    }
+
+    // COMPARTIR POR WHATSAPP
+    async function shareViaWhatsApp() {
+      const org = document.getElementById('input-org-name').value || 'Institución';
+      const score = document.getElementById('val-score').textContent;
+      const lvl = document.getElementById('val-level').textContent;
+      const archetype = document.getElementById('val-archetype').textContent;
+      const url = window.location.href;
+
+      const message = currentLang === 'ES' 
+        ? `*Diagnóstico de Madurez Institucional (IA Agéntica en QA)*%0A%0A🏛️ *Organización:* ${encodeURIComponent(org)}%0A📊 *Puntaje:* ${encodeURIComponent(score)} (${lvl} - ${archetype})%0A🧭 *Acceder a la herramienta:* ${encodeURIComponent(url)}`
+        : `*Institutional Maturity Diagnostic (Agentic AI in QA)*%0A%0A🏛️ *Agency:* ${encodeURIComponent(org)}%0A📊 *Score:* ${encodeURIComponent(score)} (${lvl} - ${archetype})%0A🧭 *Access Tool:* ${encodeURIComponent(url)}`;
+
+      // Si el navegador y sistema operativo admiten compartir archivos nativos (móviles)
+      if (lastGeneratedPdfBlob && navigator.canShare && navigator.canShare({ files: [new File([lastGeneratedPdfBlob], lastGeneratedPdfFilename, { type: 'application/pdf' })] })) {
+        try {
+          const file = new File([lastGeneratedPdfBlob], lastGeneratedPdfFilename, { type: 'application/pdf' });
+          await navigator.share({
+            title: 'Diagnóstico de Madurez IA',
+            text: currentLang === 'ES' ? `Informe de Madurez para ${org}` : `Maturity Report for ${org}`,
+            files: [file]
+          });
+          return;
+        } catch (e) {}
+      }
+
+      // Fallback universal a WhatsApp Web / Móvil
+      window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    }
+
+    // COMPARTIR POR EMAIL
+    function shareViaEmail() {
+      const org = document.getElementById('input-org-name').value || 'Institución';
+      const resp = document.getElementById('input-resp-person').value || 'Responsable';
+      const score = document.getElementById('val-score').textContent;
+      const lvl = document.getElementById('val-level').textContent;
+      const archetype = document.getElementById('val-archetype').textContent;
+      const dateStr = document.getElementById('input-eval-date').value;
+      const url = window.location.href;
+
+      const subject = currentLang === 'ES' 
+        ? `Informe de Diagnóstico de Madurez en IA - ${org}`
+        : `AI Maturity Diagnostic Report - ${org}`;
+
+      const body = currentLang === 'ES'
+        ? `Estimado equipo,%0D%0A%0D%0ASe ha completado la evaluación de madurez institucional para la adopción de IA Agéntica en Aseguramiento de la Calidad.%0D%0A%0D%0AFICHA DEL DIAGNÓSTICO:%0D%0A- Organización: ${org}%0D%0A- Evaluador / Responsable: ${resp}%0D%0A- Fecha: ${dateStr}%0D%0A- Puntaje Global: ${score}%0D%0A- Nivel de Madurez: ${lvl} (${archetype})%0D%0A%0D%0APuede consultar el diagnóstico interactivo y el mapa de transición en el siguiente enlace:%0D%0A${url}%0D%0A%0D%0AAtentamente,%0D%0A${resp}`
+        : `Dear Team,%0D%0A%0D%0AThe institutional maturity assessment for Agentic AI Adoption in Quality Assurance has been completed.%0D%0A%0D%0ADIAGNOSTIC RECORD:%0D%0A- Agency: ${org}%0D%0A- Lead Evaluator: ${resp}%0D%0A- Date: ${dateStr}%0D%0A- Overall Score: ${score}%0D%0A- Maturity Level: ${lvl} (${archetype})%0D%0A%0D%0AAccess the live interactive dashboard and transition heatmap here:%0D%0A${url}%0D%0A%0D%0ARegards,%0D%0A${resp}`;
+
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${body}`;
+    }
+
     function renderAll() {
       const t = DATA[currentLang];
       document.getElementById('ui-title').textContent = t.title;
       document.getElementById('ui-subtitle').textContent = t.subtitle;
+      document.getElementById('lbl-meta-title').textContent = t.metaTitle;
+      document.getElementById('lbl-org-name').textContent = t.orgLabel;
+      document.getElementById('lbl-resp-person').textContent = t.respLabel;
+      document.getElementById('lbl-eval-date').textContent = t.dateLabel;
+      document.getElementById('txt-pdf').textContent = t.pdfBtn;
       document.getElementById('tab-label-1').textContent = t.tab1;
       document.getElementById('tab-label-2').textContent = t.tab2;
       document.getElementById('tab-label-3').textContent = t.tab3;
@@ -647,7 +881,7 @@
       new QRious({
         element: document.getElementById('qr-canvas'),
         value: window.location.href,
-        size: 190
+        size: 175
       });
     }
 
@@ -659,9 +893,11 @@
       navigator.clipboard.writeText(window.location.href);
       const btn = document.getElementById('btn-copy-url');
       btn.textContent = '¡Enlace Copiado!';
-      setTimeout(() => btn.textContent = 'Copiar Enlace', 2000);
+      setTimeout(() => btn.textContent = '📋 Copiar Enlace Directo', 2000);
     }
 
+    // Inicialización inmediata
+    initSystemDate();
     applyTheme();
     renderAll();
   </script>
