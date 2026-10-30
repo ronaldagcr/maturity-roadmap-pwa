@@ -10,19 +10,43 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Maturity AI">
   
-  <!-- Enlaces a Manifiesto PWA, Ícono y Service Worker -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/svg+xml" href="icon.svg">
-  <link rel="apple-touch-icon" href="icon.svg">
+  <!-- Ícono Vectorial de Brújula Integrado en Data URI (512x512) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e293b'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='ring' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='175' fill='none' stroke='url(%23ring)' stroke-width='14' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='150' fill='%230b1120' stroke='%23334155' stroke-width='4'/%3E%3Cg transform='rotate(45 256 256)'%3E%3Cpolygon points='256,135 240,256 256,242' fill='%23dc2626'/%3E%3Cpolygon points='256,135 272,256 256,242' fill='%23ef4444'/%3E%3Cpolygon points='256,377 240,256 256,270' fill='%2394a3b8'/%3E%3Cpolygon points='256,377 272,256 256,270' fill='%23cbd5e1'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%231e293b' stroke='%23f8fafc' stroke-width='5'/%3E%3Ccircle cx='256' cy='256' r='6' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E">
 
+  <!-- Inyección autónoma del Manifest -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => {
-          console.error('Service Worker registration failed:', err);
+    (function initPwaManifest() {
+      const compassSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><defs><linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='#1e293b'/><stop offset='100%' stop-color='#0f172a'/></linearGradient><linearGradient id='ring' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='#3b82f6'/><stop offset='100%' stop-color='#10b981'/></linearGradient></defs><rect width='512' height='512' rx='115' fill='url(#bg)'/><circle cx='256' cy='256' r='175' fill='none' stroke='url(#ring)' stroke-width='14' opacity='0.9'/><circle cx='256' cy='256' r='150' fill='#0b1120' stroke='#334155' stroke-width='4'/><g transform='rotate(45 256 256)'><polygon points='256,135 240,256 256,242' fill='#dc2626'/><polygon points='256,135 272,256 256,242' fill='#ef4444'/><polygon points='256,377 240,256 256,270' fill='#94a3b8'/><polygon points='256,377 272,256 256,270' fill='#cbd5e1'/><circle cx='256' cy='256' r='16' fill='#1e293b' stroke='#f8fafc' stroke-width='5'/><circle cx='256' cy='256' r='6' fill='#3b82f6'/></g></svg>`;
+      const iconDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(compassSvg);
+
+      const manifest = {
+        name: "Maturity Roadmap: Agentic AI in QA",
+        short_name: "Maturity AI",
+        start_url: "./",
+        scope: "./",
+        display: "standalone",
+        background_color: "#0f172a",
+        theme_color: "#1e293b",
+        icons: [
+          { src: iconDataUrl, sizes: "192x192 512x512", type: "image/svg+xml", purpose: "any" },
+          { src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "maskable" }
+        ]
+      };
+
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      const manifestLink = document.createElement("link");
+      manifestLink.rel = "manifest";
+      manifestLink.href = manifestUrl;
+      document.head.appendChild(manifestLink);
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(() => {});
         });
-      });
-    }
+      }
+    })();
   </script>
 
   <!-- CDNs: TailwindCSS, Chart.js, Plotly.js, QRious, html2canvas y jsPDF -->
@@ -59,8 +83,8 @@
         <button id="btn-share" onclick="openShareModal()" class="px-2.5 py-1 text-xs font-medium rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
           🔗 <span class="hidden sm:inline" id="txt-share">Compartir</span>
         </button>
-        <button id="btn-install" onclick="triggerPwaInstall()" class="hidden px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition">
-          📲 Instalar
+        <button id="btn-install" onclick="triggerPwaInstall()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1 shadow-sm">
+          📲 <span id="txt-install">Instalar</span>
         </button>
         <button onclick="toggleLang()" class="px-2.5 py-1 text-xs font-semibold rounded-lg border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
           <span id="lang-indicator">🇪🇸 ES</span>
@@ -87,7 +111,7 @@
 
   <main class="max-w-5xl mx-auto px-4 py-6 space-y-6">
 
-    <!-- Tarjeta Institucional de Metadatos -->
+    <!-- Ficha de Metadatos -->
     <section class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm transition-colors">
       <div class="flex items-center gap-2 mb-3 border-b border-gray-100 dark:border-slate-700 pb-2">
         <span class="text-base text-blue-600 dark:text-blue-400">🏛️</span>
@@ -153,7 +177,7 @@
       <div id="priority-box" class="p-4 rounded-xl bg-sky-50 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700"></div>
     </section>
 
-    <!-- PESTAÑA 3: Mapa de Calor Idéntico a Plotly -->
+    <!-- PESTAÑA 3: Mapa de Calor -->
     <section id="tab-heat" class="hidden space-y-6">
       <div class="bg-indigo-50 dark:bg-slate-800/60 p-4 rounded-xl border border-indigo-200 dark:border-slate-700">
         <h2 id="heat-heading" class="text-sm font-bold text-indigo-950 dark:text-indigo-200">Mapa de Calor: Transición de Madurez</h2>
@@ -200,6 +224,29 @@
     </div>
   </div>
 
+  <!-- Modal Informativo de Instalación Manual -->
+  <div id="install-guide-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 text-left shadow-xl border border-gray-200 dark:border-slate-700 space-y-4">
+      <div class="flex items-center justify-between border-b border-gray-100 dark:border-slate-700 pb-2">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+          <span>📲</span> Instalar como Aplicación
+        </h3>
+        <button onclick="closeInstallGuide()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">✕</button>
+      </div>
+      <div class="text-xs text-gray-600 dark:text-gray-300 space-y-3">
+        <p><strong>En Laptop / PC (Chrome o Edge):</strong></p>
+        <p class="pl-2 border-l-2 border-blue-500">Haz clic en el menú de <strong>tres puntos (⋮)</strong> arriba a la derecha > <strong>"Guardar y compartir"</strong> > <strong>"Instalar página como aplicación..."</strong></p>
+        <p><strong>En Smartphone (Android / Chrome):</strong></p>
+        <p class="pl-2 border-l-2 border-emerald-500">Toca el menú de <strong>tres puntos (⋮)</strong> > <strong>"Agregar a la pantalla principal"</strong> o <strong>"Instalar aplicación"</strong>.</p>
+        <p><strong>En iPhone / iPad (Safari):</strong></p>
+        <p class="pl-2 border-l-2 border-indigo-500">Toca el botón <strong>Compartir</strong> (cuadrado con flecha hacia arriba) > selecciona <strong>"Agregar al inicio"</strong>.</p>
+      </div>
+      <button onclick="closeInstallGuide()" class="w-full py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition">
+        Entendido
+      </button>
+    </div>
+  </div>
+
   <!-- Overlay de progreso al generar PDF -->
   <div id="pdf-spinner" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-white">
     <div class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
@@ -236,7 +283,8 @@
         laggingInfo: "Su área de desarrollo más crítica es <strong>{dim}</strong> (actualmente en Nivel {lvl}). Priorice los recursos institucionales aquí antes de autorizar mayores niveles de autonomía agéntica.",
         heatHeading: "Mapa de Calor: Transición de Madurez",
         heatDesc: "Medición de la trayectoria institucional comparando la Línea Base de partida (T₀) frente a la Evaluación Actual (T₁).",
-        colsHeat: ["Línea Base (T₀)", "Actual (T₁)", "Desplazamiento Neto (Δ)"],
+        // Etiquetas optimizadas para permanecer perfectamente horizontales
+        colsHeat: ["Línea Base (T₀)", "Actual (T₁)", "Desplazamiento (Δ)"],
         heatProgressAlert: "📈 <strong>Trayectoria Favorable:</strong> La institución demuestra un avance acumulado (+{shift} puntos) a lo largo de las dimensiones de evaluación.",
         heatStableAlert: "ℹ️ <strong>Línea Base Inicial:</strong> Todas las dimensiones se encuentran en su nivel base de partida (Nivel 1).",
         archetypes: { "Level 1": "Agente Reactivo", "Level 2": "Agente Deliberativo", "Level 3": "Agente Anticipativo", "Level 4": "Agente Prescriptivo" },
@@ -399,8 +447,6 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const btn = document.getElementById('btn-install');
-      if (btn) btn.classList.remove('hidden');
     });
 
     function triggerPwaInstall() {
@@ -408,10 +454,14 @@
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(() => {
           deferredPrompt = null;
-          const btn = document.getElementById('btn-install');
-          if (btn) btn.classList.add('hidden');
         });
+      } else {
+        document.getElementById('install-guide-modal').classList.remove('hidden');
       }
+    }
+
+    function closeInstallGuide() {
+      document.getElementById('install-guide-modal').classList.add('hidden');
     }
 
     function toggleDarkMode() {
@@ -606,6 +656,7 @@
       });
     }
 
+    // MAPA DE CALOR CON ETIQUETAS ESTRICTAMENTE HORIZONTALES (tickangle: 0)
     function renderPlotlyHeatmap() {
       const t = DATA[currentLang];
       const chartDiv = document.getElementById('plotly-heatmap');
@@ -663,11 +714,12 @@
       }];
 
       const layout = {
-        margin: { l: 200, r: 40, t: 50, b: 20 },
+        margin: { l: 200, r: 40, t: 55, b: 20 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
         xaxis: {
           side: 'top',
+          tickangle: 0, // Bloqueo estricto horizontal para ES y EN
           tickfont: { color: isDark ? '#cbd5e1' : '#475569', size: 12, weight: 'bold' }
         },
         yaxis: {
@@ -690,7 +742,7 @@
       }
     }
 
-    // GENERADOR PDF (3 PÁGINAS) - CARACTERES CORREGIDOS Y DESCARGA DIRECTA
+    // GENERADOR PDF (3 PÁGINAS) LIMPIO Y DIRECTO
     async function generateThreePagePDF() {
       const spinner = document.getElementById('pdf-spinner');
       spinner.classList.remove('hidden');
@@ -730,7 +782,7 @@
 
           if (i > 0) pdf.addPage();
 
-          // Encabezado institucional limpio (sin emojis que generen caracteres extraños)
+          // Encabezado institucional limpio
           pdf.setFillColor(30, 41, 59);
           pdf.rect(0, 0, pdfWidth, 22, 'F');
           pdf.setTextColor(255, 255, 255);
@@ -742,13 +794,11 @@
           pdf.setFont("helvetica", "normal");
           pdf.text(`${currentLang === 'ES' ? 'Organización' : 'Agency'}: ${org}  |  ${currentLang === 'ES' ? 'Responsable' : 'Lead'}: ${resp}  |  ${dateStr}`, 14, 16);
 
-          // Título de la página
           pdf.setTextColor(30, 41, 59);
           pdf.setFontSize(10);
           pdf.setFont("helvetica", "bold");
           pdf.text(tab.title, 14, 29);
 
-          // Renderizado de imagen
           const imgData = canvas.toDataURL('image/png');
           const marginX = 14;
           const startY = 32;
@@ -766,7 +816,6 @@
           const centerX = marginX + (availableWidth - imgWidth) / 2;
           pdf.addImage(imgData, 'PNG', centerX, startY, imgWidth, imgHeight);
 
-          // Pie de página
           pdf.setFontSize(8);
           pdf.setTextColor(148, 163, 184);
           pdf.text(`Página ${i + 1} de 3  •  Maturity Roadmap: Agentic AI in QA  •  ${dateStr}`, pdfWidth / 2, pdfHeight - 6, { align: 'center' });
@@ -892,7 +941,6 @@
       setTimeout(() => btn.textContent = '📋 Copiar Enlace Directo', 2000);
     }
 
-    // Inicialización inmediata
     initSystemDate();
     applyTheme();
     renderAll();
