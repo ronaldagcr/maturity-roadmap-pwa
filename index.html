@@ -176,7 +176,6 @@
         <p id="modal-desc" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Envíe el reporte por WhatsApp, correo o escanee con su teléfono.</p>
       </div>
 
-      <!-- Canales de comunicación directa -->
       <div class="grid grid-cols-2 gap-2">
         <button onclick="shareViaWhatsApp()" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow transition">
           <span>💬</span> WhatsApp
@@ -691,7 +690,7 @@
       }
     }
 
-    // GENERADOR PDF (3 PÁGINAS) CON DESCARGA DIRECTA POR DEFECTO
+    // GENERADOR PDF (3 PÁGINAS) - CARACTERES CORREGIDOS Y DESCARGA DIRECTA
     async function generateThreePagePDF() {
       const spinner = document.getElementById('pdf-spinner');
       spinner.classList.remove('hidden');
@@ -731,13 +730,13 @@
 
           if (i > 0) pdf.addPage();
 
-          // Encabezado institucional
+          // Encabezado institucional limpio (sin emojis que generen caracteres extraños)
           pdf.setFillColor(30, 41, 59);
           pdf.rect(0, 0, pdfWidth, 22, 'F');
           pdf.setTextColor(255, 255, 255);
           pdf.setFontSize(11);
           pdf.setFont("helvetica", "bold");
-          pdf.text("🧭 " + DATA[currentLang].title, 14, 9);
+          pdf.text(DATA[currentLang].title, 14, 9);
 
           pdf.setFontSize(8);
           pdf.setFont("helvetica", "normal");
@@ -776,7 +775,6 @@
         const safeOrgName = org.replace(/[^a-zA-Z0-9_-]/g, '_');
         const filename = `Diagnostico_Madurez_IA_${safeOrgName}.pdf`;
 
-        // Guardado forzado y directo al área de descargas predeterminada
         const pdfBlob = pdf.output('blob');
         lastGeneratedPdfBlob = pdfBlob;
         lastGeneratedPdfFilename = filename;
@@ -811,7 +809,6 @@
         ? `*Diagnóstico de Madurez Institucional (IA Agéntica en QA)*%0A%0A🏛️ *Organización:* ${encodeURIComponent(org)}%0A📊 *Puntaje:* ${encodeURIComponent(score)} (${lvl} - ${archetype})%0A🧭 *Acceder a la herramienta:* ${encodeURIComponent(url)}`
         : `*Institutional Maturity Diagnostic (Agentic AI in QA)*%0A%0A🏛️ *Agency:* ${encodeURIComponent(org)}%0A📊 *Score:* ${encodeURIComponent(score)} (${lvl} - ${archetype})%0A🧭 *Access Tool:* ${encodeURIComponent(url)}`;
 
-      // Si el navegador y sistema operativo admiten compartir archivos nativos (móviles)
       if (lastGeneratedPdfBlob && navigator.canShare && navigator.canShare({ files: [new File([lastGeneratedPdfBlob], lastGeneratedPdfFilename, { type: 'application/pdf' })] })) {
         try {
           const file = new File([lastGeneratedPdfBlob], lastGeneratedPdfFilename, { type: 'application/pdf' });
@@ -824,7 +821,6 @@
         } catch (e) {}
       }
 
-      // Fallback universal a WhatsApp Web / Móvil
       window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
 
